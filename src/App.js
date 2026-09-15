@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import TelaLogin from './component/telaLogin';
+import TelaCadastro from './component/telaCadastro';
+import EsqueciSenha from './component/esqueciSenha';
 
 function App() {
+
+  const [tela, setTela] = useState('login');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+      {tela === 'login' && (
+        <TelaLogin
+          cadastrar={() => setTela('cadastro')}
+          esqueciSenha={() => setTela('senha')}
+        />
+      )}
+
+      {tela === 'cadastro' && (
+        <TelaCadastro
+          voltar={() => setTela('login')}
+        />
+      )}
+
+      {tela === 'senha' && (
+        <EsqueciSenha
+          voltar={() => setTela('login')}
+        />
+      )}
+
     </div>
   );
 }
