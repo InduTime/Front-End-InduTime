@@ -1,33 +1,36 @@
 import { useState } from "react";
+import "../css/DashBoard.css"
+import { dados } from "../data/Dados";
 
 export default function DashBoard(){
-    /* Tipo de maquina que sera mostrada na página */
-    const [maquina, setMaquina] = useState("Torno CNC");
-    
-    /* Variaveis do card de operaçoes */
-    const [status, setStatus] = useState(0);
-    const [operando, setOperando] = useState("Operando");
-    
-    /* Variaveis do card de Tempo em operação */
-    const [tempoEmOperacao, setTempoEmOperacao] = useState("06h 42min");
-    const [meta, setMeta] = useState("08h 00min");
-
-    /* Variaveis do card de Tempo parado */
-    const [tempoParado, setTempoParado] = useState("01h 18min");
-    
-    /* Variaveis do card de Disponibilidade */
-    const [disponibilidade, setDisponibilidade] = useState(84.5);
-    
-    /* Variaveis do Grafico de barras */
-    const [dadosBarras, setDadosBarras] = useState("Gráfico da porcentagem");
-    
-    /* Variaveis do Card de Operação Atual */
-    const [inico, setInicio] = useState("14:32");
-    const [tempoDecorrido, setTempoDecorrido] = useState("02h 17min");
-    const [tempoEstimado, setTempoEstimado] = useState(76)
+    const [maquina, setMaquina] = useState(dados.maquina);
+    const [status, setStatus] = useState(dados.status);
+    const [operando, setOperando] = useState(dados.operando);
+    const [tempoEmOperacao, setTempoEmOperacao] = useState(dados.tempoEmOperacao);
+    const [meta, setMeta] = useState(dados.meta);
+    const [tempoParado, setTempoParado] = useState(dados.tempoParado);
+    const [disponibilidade, setDisponibilidade] = useState(dados.disponibilidade);
+    const [dadosBarras, setDadosBarras] = useState(dados.dadosBarras);
+    const [inicio, setInicio] = useState(dados.inicio);
+    const [tempoDecorrido, setTempoDecorrido] = useState(dados.tempoDecorrido);
+    const [progressoEstimado, setProgressoEstimado] = useState(dados.progressoEstimado)
+    const [listaInicio, setListaInicio] = useState(dados.listaInicio);
+    const [listaTermino, setListaTermino] = useState(dados.listaTermino);
+    const [duracao, setDuracao] = useState(dados.duracao);
+    const [usuarioNome, setusuarioNome] = useState(dados.usuarioNome);
+    const [usuarioTipo, setusuarioTipo] = useState(dados.usuarioTipo);
 
     return(
-        <div>
+        <div className="container">
+            <div className="sideBar">
+                <a>Dashboard</a>
+                <a>Histórico</a>
+                <a>Relatórios</a>
+                <a>Configurações</a>
+                <a>{usuarioNome}</a>
+                <p>{usuarioTipo}</p>
+                <a>Sair do sistema</a>
+            </div>
             <div className="cabecalho">
                 <h1>Painel de monitoramento</h1>
                 <p>Acompanhamento operacional e telemetria em tempo real</p>
@@ -54,7 +57,6 @@ export default function DashBoard(){
                     <p>Disponibilidade</p>
                     <p>{disponibilidade}</p>
                     <p>Rendimento da máquina</p>
-                    <p>"Gráfico da porcentagem"</p>
                 </div>
             </div>
 
@@ -65,13 +67,37 @@ export default function DashBoard(){
             </div>
 
             <div className="cardOperacao">
-                <h2>Operação Atial</h2>
+                <h2>Operação Atual</h2>
                 {operando}
                 <p>Início da atividade</p>
+                <p>{tempoDecorrido}</p>
+                <p>{progressoEstimado}</p>
             </div>
             <div className="cardUltimaOperacao">
-
+                <h2>Últimas Operações</h2>
+                <p>início</p>
+                <ul>
+                    <li>{listaInicio[0]}</li>
+                    <li>{listaInicio[1]}</li>
+                    <li>{listaInicio[2]}</li>
+                    <li>{listaInicio[3]}</li>
+                </ul>
+                <p>Término</p>
+                <ul>
+                    <li>{listaTermino[0]}</li>
+                    <li>{listaTermino[1]}</li>
+                    <li>{listaTermino[2]}</li>
+                    <li>{listaTermino[3]}</li>
+                </ul>
+                <p>Duração</p>
+                <ul>
+                    <li>{duracao[0]}</li>
+                    <li>{duracao[1]}</li>
+                    <li>{duracao[2]}</li>
+                    <li>{duracao[3]}</li>
+                </ul>
             </div>
+            <a>Relatórios</a>
         </div>
     );
 };
