@@ -1,4 +1,37 @@
+
+import { useState } from 'react';
+
 function TelaLogin({ cadastrar, esqueciSenha }) {
+
+  const [mensagemErro, setMensagemErro] = useState('');
+
+  function verific(f) {
+    const valor = f.target.value;
+
+    if (!valor.includes('@')) {
+      setMensagemErro('E-mail inválido. Digite um e-mail com @.');
+      return false;
+    }
+
+    setMensagemErro('');
+    return true;
+  }
+
+  function email(f) {
+    if (f.key === 'Enter') {
+      entrar();
+    }
+  }
+
+  function entrar() {
+    const campoEmail = document.querySelector('input[type="email"]');
+
+    if (!verific({ target: campoEmail })) {
+      return;
+    }
+
+    alert('E-mail cadastrado com sucesso!');
+  }
 
   return (
     <div>
@@ -7,7 +40,13 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
       <input
         type="email"
         placeholder="E-mail"
+        onChange={verific}
+        onKeyDown={email}
       />
+
+      {mensagemErro && (
+        <p>{mensagemErro}</p>
+      )}
 
       <br />
 
@@ -18,7 +57,7 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
 
       <br />
 
-      <button>Entrar</button>
+      <button onClick={entrar}>Entrar</button>
 
       <br />
 
@@ -37,3 +76,4 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
 }
 
 export default TelaLogin;
+

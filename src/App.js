@@ -3,6 +3,7 @@ import TelaLogin from './component/telaLogin';
 import TelaCadastro from './component/telaCadastro';
 import EsqueciSenha from './component/esqueciSenha';
 import './App.css';
+import imagemCnc from './assets/cnc.jpeg';
 
 function App() {
 
@@ -17,7 +18,9 @@ function App() {
           ⚙ InduTime
         </div>
 
-            
+        <div className="img">
+          <img src={imagemCnc} alt="Torno CNC" />
+        </div>
 
         <div className="texto-esquerdo">
           <h2>Precisão e controle de tempo para sua manufatura.</h2>
