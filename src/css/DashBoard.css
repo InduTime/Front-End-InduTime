@@ -374,42 +374,46 @@ body {
   max-width: 110px;
 }
 
-.disponibilidade p:last-child {
-  position: absolute;
+.graficoDisponibilidade {
+    position: absolute;
 
-  top: 50%;
-  right: 20px;
+    top: 50%;
+    right: 20px;
 
-  width: 48px;
-  height: 48px;
+    width: 48px;
+    height: 48px;
 
-  transform: translateY(-50%);
+    transform: translateY(-50%);
 
-  margin: 0;
+    display: flex;
 
-  border: 2px solid #2877ee;
-  border-left-color: #e7edf5;
+    align-items: center;
+    justify-content: center;
 
-  border-radius: 50%;
+    border-radius: 50%;
 
-  font-size: 0;
+    background:
+        conic-gradient(
+            #2877ee var(--progresso),
+            #e7edf5 var(--progresso)
+        );
 }
 
-.disponibilidade p:last-child::after {
-  content: "84";
+.graficoDisponibilidade::before {
+    content: "";
 
-  position: absolute;
-  inset: 0;
+    position: absolute;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 40px;
+    height: 40px;
 
-  color: #172642;
+    border-radius: 50%;
 
-  font-size: 10px;
-  font-weight: 600;
+    background: #fff;
 }
+
+
+
 
 
 /* =========================================================
@@ -451,33 +455,92 @@ body {
    BARRAS DO GRÁFICO
    ========================================================= */
 
-.grafico > p:last-of-type {
-  position: absolute;
+.grafico {
+    position: relative;
 
-  left: 60px;
-  right: 35px;
-  bottom: 22px;
+    height: 205px;
 
-  height: 105px;
+    margin: 14px 24px;
 
-  font-size: 0;
+    padding: 18px;
 
-  background:
-    linear-gradient(#172642, #172642)
-      5% 100% / 24px 67% no-repeat,
+    background: #fff;
 
-    linear-gradient(#172642, #172642)
-      28% 100% / 24px 73% no-repeat,
-
-    linear-gradient(#172642, #172642)
-      51% 100% / 24px 55% no-repeat,
-
-    linear-gradient(#20c469, #20c469)
-      74% 100% / 24px 82% no-repeat,
-
-    linear-gradient(#172642, #172642)
-      97% 100% / 24px 66% no-repeat;
+    border: 1px solid #e4e9f0;
+    border-radius: 8px;
 }
+
+.grafico h2 {
+    margin-bottom: 5px;
+
+    color: #18243d;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.grafico > p {
+    color: #8793a6;
+
+    font-size: 10px;
+}
+
+.barras {
+    position: absolute;
+
+    left: 60px;
+    right: 35px;
+    bottom: 22px;
+
+    height: 105px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.barraContainer {
+    height: 100%;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+.barra {
+    width: 24px;
+
+    max-height: 100%;
+
+    background: #172642;
+
+    border-radius: 3px 3px 0 0;
+
+    transition: height 0.5s ease;
+}
+
+.barraAtual {
+    background: #20c469;
+}
+
+.barraContainer span {
+    color: #8793a6;
+
+    font-size: 9px;
+}
+
 
 
 /* =========================================================
@@ -490,7 +553,7 @@ body {
   display: inline-block;
   vertical-align: top;
 
-  width: calc(100% - 330px);
+  width: calc(50% - 330px);
   min-height: 132px;
 
   margin-left: 24px;
@@ -552,28 +615,32 @@ body {
   font-size: 10px;
 }
 
-.cardOperacao::after {
-  content: "";
+.barraProgresso {
+    position: absolute;
 
-  position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 17px;
 
-  left: 18px;
-  right: 18px;
-  bottom: 17px;
+    height: 6px;
 
-  height: 6px;
+    overflow: hidden;
 
-  border-radius: 6px;
+    border-radius: 6px;
 
-  background:
-    linear-gradient(
-      to right,
-      #20c469 0%,
-      #20c469 76%,
-      #e7ebf1 76%,
-      #e7ebf1 100%
-    );
+    background: #e7ebf1;
 }
+
+.barraProgressoValor {
+    height: 100%;
+
+    border-radius: 6px;
+
+    background: #20c469;
+
+    transition: width 0.5s ease;
+}
+
 
 
 /* =========================================================
@@ -587,7 +654,7 @@ body {
   vertical-align: top;
 
   width: 282px;
-  min-height: 132px;
+  min-height: 155px;
 
   margin-left: 12px;
   margin-right: 24px;
