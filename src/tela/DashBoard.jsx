@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../css/DashBoard.css";
 import { dados } from "../data/Dados";
+import Historico from "./Historico";
 
 export default function DashBoard() {
     const [dashboard, setDashboard] = useState(dados);
@@ -20,13 +22,13 @@ export default function DashBoard() {
         return () => clearInterval(intervalo); 
     }, []);
 
-    console.log(dashboard.dadosBarras);
     return (
+
         <div className="container">
 
             <div className="sideBar">
                 <a>Dashboard</a>
-                <a>Histórico</a>
+                <Link to="/Historico">Histórico</Link>
                 <a>Relatórios</a>
                 <a>Configurações</a>
 

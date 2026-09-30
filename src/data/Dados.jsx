@@ -1,5 +1,4 @@
 export const dados = {
-
     id: 1,
     maquina: "Torno CNC",
     status: 0,
