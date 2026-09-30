@@ -6,41 +6,21 @@ export default function DashBoard() {
     const [dashboard, setDashboard] = useState(dados);
 
     useEffect(() => {
-
     const intervalo = setInterval(() => {
-
-        setDashboard((atual) => {
-
-            const novoTempo = Math.floor(
-                Math.random() * 10
-            );
-
+        setDashboard((e) => {
             return {
-                ...atual,
+                ...e,
 
-                disponibilidade: ( 80 + Math.random() * 10 ).toFixed(1),
-
-                progressoEstimado: Math.min( atual.progressoEstimado + 1, 100 ),
-
-                dadosBarras: atual.dadosBarras.map(
-                    (dia) => ({
-                        ...dia,
-                        valor: Math.floor(
-                            Math.random() * 100
-                        )
-                    })
-                )
+                disponibilidade: dados.disponibilidade,
+                progressoEstimado: dados.progressoEstimado,
+                dadosBarras: dados.dadosBarras
             };
-
         });
-
     }, 1000);
+        return () => clearInterval(intervalo); 
+    }, []);
 
-    return () => clearInterval(intervalo);
-
-}, []);
-
-
+    console.log(dashboard.dadosBarras);
     return (
         <div className="container">
 
@@ -61,7 +41,10 @@ export default function DashBoard() {
                 <p>
                     Acompanhamento operacional e telemetria em tempo real
                 </p>
-
+                
+                <a className="nome_da_maquina">
+                    {dashboard.maquina}
+                </a>
                 <input type="date" />
             </div>
 
@@ -69,10 +52,20 @@ export default function DashBoard() {
 
                 <div className="status">
                     <p>Status do {dashboard.maquina}</p>
-                    <p className="operandoStatus">
-                        {dashboard.operando}
+                    <p className="operandoStatus" style={{color: dashboard.status === 1 ? "#00FF00" : dashboard.status === 0 ? "#FF0000" : ""}}>
+                        {
+                            dashboard.status === 1 ? 
+                            "Operando" : 
+                            dashboard.status === 0 ?
+                            "Parado" : ""
+                        }
                     </p>
-                    <p>Em Operação</p>
+                    <p>{
+                            dashboard.status === 1 ? 
+                            "Em operação" : 
+                            dashboard.status === 0 ?
+                            "Parado" : ""
+                        }</p>
                 </div>
 
                 <div className="operacao">
@@ -127,6 +120,7 @@ export default function DashBoard() {
                                 style={{
                                     height: `${dia.valor}%`
                                 }}
+                                data-tooltip={`${dia.dia} - ${dia.horas}`}
                             />
 
                             <span>{dia.dia}</span>

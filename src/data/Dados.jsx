@@ -1,36 +1,39 @@
 export const dados = {
 
+    id: 1,
     maquina: "Torno CNC",
     status: 0,
-    operando: "Operando",
     tempoEmOperacao: "06h 42min",
     meta: "08h 00min",
     tempoParado: "01h 18min",
-    disponibilidade: "84.5",
+    disponibilidade: "90",
     dadosBarras: [
         {
             dia: "Seg",
-            valor: 67
+            valor: 67,
+            horas: "06h 42min"
         },
         {
             dia: "Ter",
-            valor: 73
+            valor: 73,
+            horas: "07h 15min"
         },
         {
             dia: "Qua",
-            valor: 55
+            valor: 55,
+            horas: "05h 30min"
         },
         {
             dia: "Qui",
-            valor: 82
+            valor: 82,
+            horas: "08h 20min"
         },
         {
             dia: "Sex",
-            valor: 66
+            valor: 66,
+            horas: "06h 30min"
         }
     ],
-
-    inicio: "14:32",
     tempoDecorrido: "02h 17min",
     progressoEstimado: 10,
     listaInicio: [
