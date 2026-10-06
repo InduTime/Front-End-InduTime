@@ -1,79 +1,102 @@
-
 import { useState } from 'react';
 
-function TelaLogin({ cadastrar, esqueciSenha }) {
-
+function TelaLogin({ onCadastro, onLogin, onEsqueciSenha }) {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [mensagemErro, setMensagemErro] = useState('');
 
-  function verific(f) {
-    const valor = f.target.value;
-
-    if (!valor.includes('@')) {
+  function entrar() {
+    if (!email.includes('@')) {
       setMensagemErro('E-mail inválido. Digite um e-mail com @.');
-      return false;
+      return;
+    }
+
+    if (senha.trim() === '') {
+      setMensagemErro('Digite sua senha.');
+      return;
     }
 
     setMensagemErro('');
-    return true;
+
+    // Envia para o App.jsx
+    if (onLogin) {
+      onLogin();
+    }
   }
 
-  function email(f) {
-    if (f.key === 'Enter') {
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
       entrar();
     }
   }
 
-  function entrar() {
-    const campoEmail = document.querySelector('input[type="email"]');
-
-    if (!verific({ target: campoEmail })) {
-      return;
-    }
-
-    alert('E-mail cadastrado com sucesso!');
-  }
-
   return (
-    <div>
+    <div className="login-container">
       <h1>Login</h1>
 
-      <input
-        type="email"
-        placeholder="E-mail"
-        onChange={verific}
-        onKeyDown={email}
-      />
+      <p>Entre na sua conta InduTime</p>
 
       {mensagemErro && (
-        <p>{mensagemErro}</p>
+        <p className="mensagem-erro">
+          {mensagemErro}
+        </p>
       )}
 
-      <br />
+      <div className="form-group">
+        <label htmlFor="email">E-mail</label>
 
-      <input
-        type="password"
-        placeholder="Senha"
-      />
+        <input
+          id="email"
+          type="email"
+          placeholder="Digite seu e-mail"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+      </div>
 
-      <br />
+      <div className="form-group">
+        <label htmlFor="senha">Senha</label>
 
-      <button onClick={entrar}>Entrar</button>
+        <input
+          id="senha"
+          type="password"
+          placeholder="Digite sua senha"
+          value={senha}
+          onChange={(event) => setSenha(event.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+      </div>
 
-      <br />
+      <button
+        type="button"
+        onClick={entrar}
+        className="btn-login"
+      >
+        Entrar
+      </button>
 
-      <button onClick={esqueciSenha}>
+      <button
+        type="button"
+        onClick={onEsqueciSenha}
+        className="btn-link"
+      >
         Esqueci minha senha
       </button>
 
-      <p>Não possui uma conta?</p>
+      <div className="cadastro-area">
+        <p>Não possui uma conta?</p>
 
-      <button onClick={cadastrar}>
-        Criar cadastro
-      </button>
-
+        <button
+          type="button"
+          onClick={onCadastro}
+          className="btn-cadastro"
+        >
+          Criar conta
+        </button>
+      </div>
     </div>
   );
 }
 
 export default TelaLogin;
-
