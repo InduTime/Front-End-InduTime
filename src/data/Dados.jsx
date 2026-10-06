@@ -1,7 +1,8 @@
 export const dados = {
     id: 1,
     maquina: "Torno CNC",
-    status: 0,
+    status: 1,
+    dataOperacao: "05/10/2026",
     tempoEmOperacao: "06h 42min",
     meta: "08h 00min",
     tempoParado: "01h 18min",

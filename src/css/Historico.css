@@ -1,0 +1,429 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+ 
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f4f6fa;
+  color: #18243d;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.histHontainer {
+  width: 100%;
+  min-height: 100vh;
+  padding-left: 136px;
+  padding-bottom: 32px;
+  background: #f4f6fa;
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.histSideBar {
+  position: fixed;
+  z-index: 20;
+  inset: 0 auto 0 0;
+
+  width: 150px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 28px 12px 16px;
+
+  background: #172642;
+  color: #fff;
+}
+
+.histSideBar a {
+  position: relative;
+
+  width: 100%;
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 12px;
+  margin-bottom: 5px;
+
+  border-radius: 6px;
+
+  color: #9da9bd;
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  transition: background .2s ease, color .2s ease;
+}
+
+.histSideBar a:hover {
+  background: #1e3152;
+  color: #fff;
+}
+
+.histSideBar a:nth-child(2) {
+  background: #10203c;
+  color: #fff;
+}
+
+.histSideBar a:first-child::before {
+  content: "▦";
+  margin-right: 9px;
+  color: #8794aa;
+  font-size: 13px;
+}
+
+.histSideBar a:nth-child(2)::before {
+  content: "◷";
+  margin-right: 9px;
+  color: #19c86b;
+  font-size: 15px;
+}
+
+.histSideBar a:nth-child(3)::before {
+  content: "▥";
+  margin-right: 9px;
+  color: #8794aa;
+  font-size: 13px;
+}
+
+.histSideBar a:nth-child(4)::before {
+  content: "⚙";
+  margin-right: 9px;
+  color: #8794aa;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   USUÁRIO
+   ========================================================= */
+
+.histSideBar a:nth-child(5) {
+  margin-top: auto;
+  margin-bottom: 0;
+  padding-left: 38px;
+
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.histSideBar a:nth-child(5)::before {
+  content: "CS";
+
+  position: absolute;
+  left: 2px;
+  top: 50%;
+
+  width: 28px;
+  height: 28px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #30415f;
+
+  color: #fff;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.histSideBar p {
+  margin-left: 38px;
+  margin-top: 1px;
+  margin-bottom: 10px;
+
+  color: #8d99ad;
+
+  font-size: 10px;
+}
+
+.histSideBar a:last-child {
+  min-height: 34px;
+  margin-bottom: 0;
+
+  background: #10203c;
+  color: #ef5350;
+
+  font-size: 11px;
+}
+
+.histSideBar a:last-child:hover {
+  background: #203252;
+}
+
+.histSideBar a:last-child::before {
+  content: "↪";
+  margin-right: 7px;
+  color: #ef5350;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+
+.histCabecalho {
+  position: relative;
+
+  min-height: 112px;
+
+  padding: 28px 24px 20px;
+}
+
+.histCabecalho h1 {
+  margin-bottom: 5px;
+
+  color: #18243d;
+
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.histCabecalho p {
+  color: #8290a7;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.histNome_da_maquina {
+  position: absolute;
+  top: 30px;
+  right: 104px;
+
+  color: #18243d;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.histCabecalho input {
+  position: absolute;
+
+  top: 25px;
+  right: 24px;
+
+  width: 62px;
+  height: 30px;
+
+  padding: 5px 7px;
+
+  border: 1px solid #dfe5ee;
+  border-radius: 6px;
+
+  outline: none;
+  background: #fff;
+
+  color: #66738a;
+
+  font-family: inherit;
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   CARDS SUPERIORES
+   ========================================================= */
+
+.histCards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 14px;
+
+  padding: 0 24px;
+}
+
+.histCards > div {
+  position: relative;
+
+  min-height: 108px;
+
+  padding: 18px 18px;
+
+  background: #fff;
+
+  border: 1px solid #e4e9f0;
+  border-radius: 8px;
+
+  box-shadow: 0 1px 3px rgba(20, 35, 60, .025);
+}
+
+.histCards p:first-child {
+  margin-bottom: 8px;
+
+  color: #718097;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.histCards p:nth-child(2) {
+  margin-bottom: 5px;
+
+  color: #18243d;
+
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.histCards p:nth-child(3) {
+  color: #8995a8;
+
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+
+/* =========================================================
+   BOTÃO RELATÓRIOS
+   ========================================================= */
+
+.histContainer > a:last-child {
+  position: fixed;
+
+  z-index: 10;
+
+  right: 20px;
+  bottom: 16px;
+
+  width: 90px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background: #172642;
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.histContainer > a:last-child:hover {
+  background: #223657;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .histContainer {
+    padding-left: 140px;
+  }
+
+  .histSideBar {
+    width: 150px;
+  }
+
+  .histCards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .histSideBar {
+    display: none;
+  }
+
+  .histContainer {
+    padding-left: 0;
+  }
+
+  .cabecalho {
+    min-height: 100px;
+    padding: 22px 18px 16px;
+  }
+
+  .cabecalho h1 {
+    font-size: 20px;
+  }
+
+  .cabecalho::after {
+    display: none;
+  }
+
+  .cabecalho input {
+    right: 18px;
+    top: 20px;
+  }
+
+  .histCards {
+    grid-template-columns: 1fr;
+    padding: 0 15px;
+  }
+
+  .histCards > div {
+    min-height: 100px;
+  }
+}
+
+
+/* =========================================================
+   CELULARES PEQUENOS
+   ========================================================= */
+
+@media (max-width: 450px) {
+
+  .cabecalho h1 {
+    font-size: 18px;
+  }
+
+  .cabecalho p {
+    font-size: 10px;
+  }
+
+  .histCards > div {
+    min-height: 94px;
+  }
+}
