@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function TelaLogin({ cadastrar, esqueciSenha }) {
 
@@ -57,7 +58,12 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
 
       <br />
 
-      <button onClick={entrar}>Entrar</button>
+      <Link
+            to="/DashBoard"
+            className="App-link"
+            >
+              <button onClick={entrar} style={{ "margin-bottom": "8px" }}>Entrar</button>  
+      </Link>
 
       <br />
 
