@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
- 
-/* =========================================================
+
+/* =====================================================
    RESET
-   ========================================================= */
+   ===================================================== */
 
 * {
   box-sizing: border-box;
@@ -24,24 +24,22 @@ body {
   font-size: 14px;
 }
 
+/* =====================================================
+   CONTAINER PRINCIPAL
+   ===================================================== */
 
-/* =========================================================
-   CONTAINER
-   ========================================================= */
-
-.histHontainer {
+.histContainer {
   width: 100%;
   min-height: 100vh;
-  padding-left: 136px;
-  padding-bottom: 32px;
+  margin: 0;
+  padding: 0 24px 35px 175px;
   background: #f4f6fa;
   overflow-x: hidden;
 }
 
-
-/* =========================================================
+/* =====================================================
    SIDEBAR
-   ========================================================= */
+   ===================================================== */
 
 .histSideBar {
   position: fixed;
@@ -84,12 +82,12 @@ body {
 }
 
 .histSideBar a:hover {
-  background: #1e3152;
+  background: #243756;
   color: #fff;
 }
 
 .histSideBar a:nth-child(2) {
-  background: #10203c;
+  background: #101e38;
   color: #fff;
 }
 
@@ -97,7 +95,6 @@ body {
   content: "▦";
   margin-right: 9px;
   color: #8794aa;
-  font-size: 13px;
 }
 
 .histSideBar a:nth-child(2)::before {
@@ -120,7 +117,6 @@ body {
   color: #8794aa;
   font-size: 13px;
 }
-
 
 /* =========================================================
    USUÁRIO
@@ -191,239 +187,483 @@ body {
   font-size: 14px;
 }
 
-
-/* =========================================================
+/* =====================================================
    CABEÇALHO
-   ========================================================= */
+   ===================================================== */
 
 .histCabecalho {
   position: relative;
-
-  min-height: 112px;
-
-  padding: 28px 24px 20px;
+  min-height: 88px;
+  padding: 22px 18px 16px;
 }
 
 .histCabecalho h1 {
   margin-bottom: 5px;
-
   color: #18243d;
-
-  font-size: 23px;
+  font-size: 24px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .histCabecalho p {
   color: #8290a7;
-
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .histNome_da_maquina {
   position: absolute;
-  top: 30px;
-  right: 104px;
-
+  top: 26px;
+  right: 110px;
   color: #18243d;
-
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .histCabecalho input {
   position: absolute;
+  top: 20px;
+  right: 18px;
 
-  top: 25px;
-  right: 24px;
-
-  width: 62px;
-  height: 30px;
-
-  padding: 5px 7px;
+  width: 115px;
+  height: 34px;
+  padding: 6px 8px;
 
   border: 1px solid #dfe5ee;
   border-radius: 6px;
-
   outline: none;
+
   background: #fff;
-
-  color: #66738a;
-
+  color: #46546c;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
 }
 
-
-/* =========================================================
-   CARDS SUPERIORES
-   ========================================================= */
+/* =====================================================
+   ÁREA DOS CARDS
+   ===================================================== */
 
 .histCards {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 
-  gap: 14px;
+  width: 100%;
+  min-width: 0;
+  gap: 0;
 
-  padding: 0 24px;
+  padding: 0 0 30px;
 }
 
 .histCards > div {
   position: relative;
+  min-width: 0;
+}
 
-  min-height: 108px;
+/* =====================================================
+   CARD DE OPERAÇÃO INDIVIDUAL
+   ===================================================== */
 
-  padding: 18px 18px;
+.histCards .cardFiltro {
+  width: 100%;
+  min-height: 46px;
+
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 14px;
+
+  padding: 10px 14px;
+  margin-bottom: 14px;
 
   background: #fff;
-
-  border: 1px solid #e4e9f0;
+  border: 1px solid #e1e7f0;
   border-radius: 8px;
-
-  box-shadow: 0 1px 3px rgba(20, 35, 60, .025);
 }
 
-.histCards p:first-child {
-  margin-bottom: 8px;
-
-  color: #718097;
-
-  font-size: 11px;
-  font-weight: 500;
+.histCards .cardFiltro p {
+  margin: 0;
+  color: #273650;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.histCards p:nth-child(2) {
-  margin-bottom: 5px;
+/* Status */
 
-  color: #18243d;
+.histCards .cardFiltro .operandoStatus {
+  justify-self: start;
+  padding: 4px 9px;
 
-  font-size: 21px;
-  font-weight: 700;
-  line-height: 1.15;
-}
-
-.histCards p:nth-child(3) {
-  color: #8995a8;
+  border-radius: 5px;
+  background: #e7fbea;
+  color: #00a94b;
 
   font-size: 10px;
-  line-height: 1.3;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
+/* =====================================================
+   TABELA DE HISTÓRICO
+   ===================================================== */
 
-/* =========================================================
-   BOTÃO RELATÓRIOS
-   ========================================================= */
+.histCards .cardListaHist {
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
 
-.histContainer > a:last-child {
-  position: fixed;
+  overflow-x: auto;
 
-  z-index: 10;
+  background: #fff;
+  border: 1px solid #e1e7f0;
+  border-radius: 8px 8px 0 0;
+}
 
-  right: 20px;
-  bottom: 16px;
+.cardListaHist table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background: #fff;
+}
 
-  width: 90px;
+.cardListaHist thead {
+  background: #f1f4f9;
+}
+
+.cardListaHist th {
+  padding: 14px 14px;
+  color: #586983;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cardListaHist td {
+  padding: 14px;
+  color: #263650;
+  font-size: 12px;
+  line-height: 1.5;
+  border-top: 1px solid #e7ecf3;
+  white-space: nowrap;
+}
+
+.cardListaHist tbody tr {
+  height: 43px;
+}
+
+.cardListaHist tbody tr:hover {
+  background: #f8faff;
+}
+
+/* Status da tabela */
+
+.statusConcluida {
+  display: inline-block;
+  padding: 4px 9px;
+
+  border-radius: 5px;
+  background: #e7fbea;
+  color: #00a94b;
+
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusAndamento {
+  display: inline-block;
+  padding: 4px 9px;
+
+  border-radius: 5px;
+  background: #fff2df;
+  color: #c87800;
+
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   PAGINAÇÃO
+   Fica diretamente abaixo da tabela
+   ===================================================== */
+
+.histCards .cardPassarPaginas {
+  width: 100%;
+  min-height: 48px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: 7px;
+
+  margin: 0;
+  padding: 8px 14px;
+
+  background: #f4f6fa;
+  border: 1px solid #e1e7f0;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Contador à esquerda */
+
+.cardPassarPaginas span:first-child {
+  margin-right: auto;
+  color: #718097;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* Botões */
+
+.cardPassarPaginas button {
+  min-width: 30px;
   height: 30px;
+  padding: 0 9px;
+
+  border: 1px solid #dfe5ee;
+  border-radius: 5px;
+
+  background: #fff;
+  color: #273650;
+
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.cardPassarPaginas button:hover {
+  background: #e9eef7;
+}
+
+.cardPassarPaginas button.paginaAtiva {
+  background: #1b2b4d;
+  color: #fff;
+  border-color: #1b2b4d;
+}
+
+/* =====================================================
+   RESUMO INFERIOR
+   MESMA LARGURA DA TABELA E DA PAGINAÇÃO
+   ===================================================== */
+
+.histCards .cardResumoHist {
+  width: 100%;
+  min-height: 58px;
+
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1.25fr;
+  align-items: center;
+  gap: 0;
+
+  margin-top: 14px;
+  padding: 10px 18px;
+
+  background: #1b2b4d;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+/* Textos dos indicadores */
+
+.histCards .cardResumoHist p,
+.histCards .cardResumoHist p:first-child,
+.histCards .cardResumoHist p:nth-child(2),
+.histCards .cardResumoHist p:nth-child(3) {
+  margin: 0;
+  padding: 5px 16px;
+
+  color: #e8edf7;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: normal;
+}
+
+.histCards .cardResumoHist p:first-child {
+  padding-left: 0;
+}
+
+/* Separadores verticais */
+
+.histCards .cardResumoHist p + p {
+  border-left: 1px solid #394967;
+}
+
+/* Números verdes */
+
+.histCards .cardResumoHist strong {
+  color: #16d66c;
+  font-weight: 700;
+}
+
+/* Ícones */
+
+.resumoIcone {
+  display: inline-block;
+  margin-right: 7px;
+  color: #16d66c;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* =====================================================
+   BOTÃO RELATÓRIOS
+   ===================================================== */
+
+.histContainer .histBotaoRelatorios {
+  position: fixed;
+  z-index: 30;
+  right: 25px;
+  bottom: 20px;
+
+  min-width: 110px;
+  height: 36px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 16px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 20px;
 
-  background: #172642;
+  background: #1b2b4d;
   color: #fff;
-
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-
   text-decoration: none;
 }
 
-.histContainer > a:last-child:hover {
-  background: #223657;
+.histContainer .histBotaoRelatorios:hover {
+  background: #263b60;
 }
 
-
-/* =========================================================
+/* =====================================================
    TABLET
-   ========================================================= */
+   ===================================================== */
 
 @media (max-width: 1100px) {
-
   .histContainer {
-    padding-left: 140px;
+    padding-left: 175px;
+    padding-right: 20px;
   }
 
-  .histSideBar {
-    width: 150px;
+  .histCabecalho h1 {
+    font-size: 22px;
   }
 
-  .histCards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .histCards .cardResumoHist {
+    grid-template-columns: 1fr 1.2fr 1.1fr;
+  }
+
+  .histCards .cardResumoHist p,
+  .histCards .cardResumoHist p:first-child,
+  .histCards .cardResumoHist p:nth-child(2),
+  .histCards .cardResumoHist p:nth-child(3) {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 11px;
   }
 }
 
-
-/* =========================================================
+/* =====================================================
    MOBILE
-   ========================================================= */
+   ===================================================== */
 
 @media (max-width: 700px) {
-
   .histSideBar {
     display: none;
   }
 
   .histContainer {
-    padding-left: 0;
+    padding: 0 14px 25px;
   }
 
-  .cabecalho {
-    min-height: 100px;
-    padding: 22px 18px 16px;
+  .histCabecalho {
+    min-height: 120px;
+    padding: 20px 4px 12px;
   }
 
-  .cabecalho h1 {
+  .histCabecalho h1 {
     font-size: 20px;
   }
 
-  .cabecalho::after {
-    display: none;
+  .histCabecalho p {
+    font-size: 11px;
   }
 
-  .cabecalho input {
-    right: 18px;
-    top: 20px;
+  .histNome_da_maquina {
+    position: static;
+    display: block;
+    margin-top: 8px;
   }
 
-  .histCards {
+  .histCabecalho input {
+    top: auto;
+    right: 4px;
+    bottom: 12px;
+    width: 120px;
+  }
+
+  .histCards .cardFiltro {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .histCards .cardPassarPaginas {
+    flex-wrap: wrap;
+    min-height: 48px;
+  }
+
+  .cardPassarPaginas span:first-child {
+    width: 100%;
+    margin-bottom: 4px;
+    white-space: normal;
+  }
+
+  .histCards .cardResumoHist {
     grid-template-columns: 1fr;
-    padding: 0 15px;
+    gap: 8px;
+    padding: 14px;
   }
 
-  .histCards > div {
-    min-height: 100px;
+  .histCards .cardResumoHist p,
+  .histCards .cardResumoHist p:first-child,
+  .histCards .cardResumoHist p:nth-child(2),
+  .histCards .cardResumoHist p:nth-child(3) {
+    padding: 7px 0;
+    font-size: 12px;
+    border-left: none;
+    white-space: normal;
+  }
+
+  .histCards .cardResumoHist p + p {
+    border-top: 1px solid #394967;
   }
 }
 
-
-/* =========================================================
+/* =====================================================
    CELULARES PEQUENOS
-   ========================================================= */
+   ===================================================== */
 
 @media (max-width: 450px) {
-
-  .cabecalho h1 {
+  .histCabecalho h1 {
     font-size: 18px;
   }
 
-  .cabecalho p {
-    font-size: 10px;
+  .histCards .cardListaHist {
+    overflow-x: auto;
   }
 
-  .histCards > div {
-    min-height: 94px;
+  .cardListaHist th,
+  .cardListaHist td {
+    padding: 11px 10px;
+    font-size: 10px;
   }
 }

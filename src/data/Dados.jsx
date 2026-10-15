@@ -3,6 +3,7 @@ export const dados = {
     maquina: "Torno CNC",
     status: 1,
     dataOperacao: "05/10/2026",
+    totalOperacoes: 47,
     tempoEmOperacao: "06h 42min",
     meta: "08h 00min",
     tempoParado: "01h 18min",
@@ -39,6 +40,12 @@ export const dados = {
     listaInicio: [
         "13:00",
         "11:45",
+        "10:02",
+        "10:02",
+        "10:02",
+        "10:02",
+        "10:02",
+        "10:02",
         "10:02",
         "08:10"
     ],
