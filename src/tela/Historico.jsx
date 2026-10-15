@@ -4,106 +4,165 @@ import { dados } from "../data/Dados";
 import { Link } from "react-router-dom";
 
 export default function Historico() {
-        const [historico, setHistorico] = useState(dados);
+  const [historico] = useState(dados);
+  const [paginaAtual, setPaginaAtual] = useState(1);
 
-    return (
-        <div className="histContainer">
-            <div className="histSideBar">
-                <Link to="/Dashboard">Dashboard</Link>
-                <a>Histórico</a>
-                <a>Relatórios</a>
-                <a>Configurações</a>
+  const itensPorPagina = 10;
 
-                <a>{historico.usuarioNome}</a>
-                <p>{historico.usuarioTipo}</p>
+  // O array de início define quantas operações serão exibidas.
+  const totalOperacoes = historico.listaInicio.length;
 
-                <a>Sair do sistema</a>
-            </div>
+  const totalPaginas = Math.max(
+    1,
+    Math.ceil(totalOperacoes / itensPorPagina)
+  );
 
-            <div className="histCabecalho">
-                <h1>Histórico de operações</h1>
-                <p>
-                    Registro completo de todos os ciclos de atividade da máquina
-                </p>
-                <a className="histNome_da_maquina">
-                    {historico.maquina}
-                </a>
-                <input type="date" />
-            </div>
+  const indiceInicial = (paginaAtual - 1) * itensPorPagina;
+  const indiceFinal = Math.min(
+    indiceInicial + itensPorPagina,
+    totalOperacoes
+  );
 
-            <div className="histCards">
+  // Monta as linhas usando os arrays já existentes.
+  const operacoesVisiveis = historico.listaInicio
+    .slice(indiceInicial, indiceFinal)
+    .map((inicio, index) => {
+      const indice = indiceInicial + index;
 
-                <div className="cardFiltro">
-                    <p>De: {historico.dataOperacao}</p>
-                    <p>Até: {historico.listaInicio[0]}</p>
-                    <p>{historico.listaTermino[0]}</p>
-                    <p>{historico.duracao[0]}</p>
-                    <p className="operandoStatus" style={{color: historico.status === 1 ? "#ffee00" : historico.status === 0 ? "#00ff2a" : ""}}>
-                        {
-                            historico.status === 1 ? 
-                            "Em andamento" : 
-                            historico.status === 0 ?
-                            "Concluído" : ""
-                        }
-                    </p>
-                </div>
+      return {
+        id: indice,
+        data: historico.dataOperacao,
+        inicio,
+        termino: historico.listaTermino[indice] || "—",
+        duracao: historico.duracao[indice] || "—",
+        status: historico.status
+      };
+    });
 
-                <div className="cardListaHist">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Início</th>
-                            <th>Término</th>
-                            <th>Duração</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
+  function irParaPagina(pagina) {
+    if (pagina >= 1 && pagina <= totalPaginas) {
+      setPaginaAtual(pagina);
+    }
+  }
 
-                        <tbody>
-                        {(historico.listaInicio || []).map((inicio, index) => (
-                            <tr key={index}>
-                            <td>{historico.dataOperacao}</td>
-                            <td>{inicio}</td>
-                            <td>{historico.listaTermino?.[index] || "—"}</td>
-                            <td>{historico.duracao?.[index] || "—"}</td>
-                            <td>
-                                <span
-                                className={
-                                    historico.status === 1
-                                    ? "statusAndamento"
-                                    : "statusConcluida"
-                                }
-                                >
-                                {historico.status === 1
-                                    ? "Em andamento"
-                                    : "Concluída"}
-                                </span>
-                            </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
+  return (
+    <div className="histContainer">
+      <div className="histSideBar">
+        <Link to="/Dashboard">Dashboard</Link>
+        <a>Histórico</a>
+        <a>Relatórios</a>
+        <a>Configurações</a>
 
-                <div className="cardPassarPaginas">
-                    <span>Mostrando 1–8 de {historico.totalOperacoes} operações</span>
-                    <button className="paginaAtiva">1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <span>...</span>
-                    <button>12</button>
-                    <button>Próxima →</button>
-                </div>
+        <a>{historico.usuarioNome}</a>
+        <p>{historico.usuarioTipo}</p>
 
-                <div className="cardResumoHist">
-                    <p>Total de operações: {historico.totalOperacoes}</p>
-                    <p>Tempo total de operação: {historico.tempoEmOperacao}</p>
-                    <p>Disponibilidade média: {historico.disponibilidade}%</p>
-                </div>
-                
-            </div>
+        <Link to="/login">Sair do sistema</Link>
+      </div>
 
+      <div className="histCabecalho">
+            <h1>Histórico de operações</h1>
+            <p>
+                Registro completo de todos os ciclos de atividade da máquina
+            </p>
+            
+            <a className="nome_da_maquina">
+                {historico.maquina}
+            </a>
+            <input type="date" />
         </div>
-    );
-};
+
+      <div className="histCards">
+        <div className="cardListaHist">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Início</th>
+                <th>Término</th>
+                <th>Duração</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {operacoesVisiveis.map((operacao) => (
+                <tr key={operacao.id}>
+                  <td>{operacao.data}</td>
+                  <td>{operacao.inicio}</td>
+                  <td>{operacao.termino}</td>
+                  <td>{operacao.duracao}</td>
+                  <td>
+                    <span
+                      className={
+                        operacao.status === 1
+                          ? "statusAndamento"
+                          : "statusConcluida"
+                      }
+                    >
+                      {operacao.status === 1
+                        ? "Em andamento"
+                        : "Concluída"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="cardPassarPaginas">
+          <span>
+            Mostrando {totalOperacoes === 0 ? 0 : indiceInicial + 1}
+            –{indiceFinal} de {totalOperacoes} operações
+          </span>
+
+          <button
+            disabled={paginaAtual === 1}
+            onClick={() => irParaPagina(paginaAtual - 1)}
+          >
+            Anterior
+          </button>
+
+          {Array.from(
+            { length: totalPaginas },
+            (_, index) => index + 1
+          ).map((pagina) => (
+            <button
+              key={pagina}
+              className={
+                paginaAtual === pagina ? "paginaAtiva" : ""
+              }
+              onClick={() => irParaPagina(pagina)}
+            >
+              {pagina}
+            </button>
+          ))}
+
+          <button
+            disabled={paginaAtual === totalPaginas}
+            onClick={() => irParaPagina(paginaAtual + 1)}
+          >
+            Próxima →
+          </button>
+        </div>
+
+        <div className="cardResumoHist">
+          <p>
+            Total de operações:{" "}
+            <strong>{historico.totalOperacoes}</strong>
+          </p>
+
+          <p>
+            Tempo total de operação:{" "}
+            <strong>{historico.tempoEmOperacao}</strong>
+          </p>
+
+          <p>
+            Disponibilidade média:{" "}
+            <strong>{historico.disponibilidade}%</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
