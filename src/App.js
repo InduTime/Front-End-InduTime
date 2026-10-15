@@ -5,8 +5,8 @@ import EsqueciSenha from './component/esqueciSenha';
 import './App.css';
 import imagemCnc from './assets/cnc.jpeg';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
 import DashBoard from './tela/DashBoard';
+import Historico from './tela/Historico';
 
 function App() {
 
@@ -15,7 +15,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={
+        <Route path="/" element={ 
+
           <div className="app">
 
             <div className="lado-esquerdo">
@@ -78,6 +79,7 @@ function App() {
         </div>
         }/>
       <Route path="/DashBoard"element={<DashBoard/>}/>
+      <Route path="/Historico"element={<Historico/>}/>
     </Routes>
   </BrowserRouter>
   );
