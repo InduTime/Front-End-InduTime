@@ -1,26 +1,87 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import logo from './logo.svg';
+import { useState } from 'react';
+import TelaLogin from './component/telaLogin';
+import TelaCadastro from './component/telaCadastro';
+import EsqueciSenha from './component/esqueciSenha';
 import './App.css';
+import imagemCnc from './assets/cnc.jpeg';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import DashBoard from './tela/DashBoard';
 import Historico from './tela/Historico';
 
 function App() {
+
+  const [tela, setTela] = useState('login');
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={
-          <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <Link to="/DashBoard" className="App-link">DashBoard</Link>
-              <Link to="/Historico" className="App-link">Histórico</Link>
-            </header>
-          </div>
+        <Route path="/" element={ 
+
+          <div className="app">
+
+            <div className="lado-esquerdo">
+
+              <div className="logo">
+                ⚙ InduTime
+              </div>
+
+              <div className="img">
+                <img src={imagemCnc} alt="Torno CNC" />
+              </div>
+
+              <div className="texto-esquerdo">
+                <h2>Precisão e controle de tempo para sua manufatura.</h2>
+
+                <p>
+                  Monitore o tempo de operação de seus tornos CNC em tempo real
+                  através da nossa rede integrada de sensores IoT.
+                </p>
+              </div>
+
+              <div className="rodape-esquerdo">
+                INDUTIME • TECNOLOGIA INDUSTRIAL
+              </div>
+
+            </div>
+
+
+            <div className="lado-direito">
+
+              <div className="formulario">
+
+                {tela === 'login' && (
+                  <TelaLogin
+                    cadastrar={() => setTela('cadastro')}
+                    esqueciSenha={() => setTela('senha')}
+                  />
+                )}
+
+                {tela === 'cadastro' && (
+                  <TelaCadastro
+                    voltar={() => setTela('login')}
+                  />
+                )}
+
+                {tela === 'senha' && (
+                  <EsqueciSenha
+                    voltar={() => setTela('login')}
+                  />
+                )}
+
+              </div>
+
+              <div className="copyright">
+                © 2026 InduTime. Todos os direitos reservados.
+              </div>
+
+            </div>
+
+        </div>
         }/>
-        <Route path="/DashBoard"element={<DashBoard/>}/>
-        <Route path="/Historico"element={<Historico/>}/>
-      </Routes>
-    </BrowserRouter>
+      <Route path="/DashBoard"element={<DashBoard/>}/>
+      <Route path="/Historico"element={<Historico/>}/>
+    </Routes>
+  </BrowserRouter>
   );
 }
 
