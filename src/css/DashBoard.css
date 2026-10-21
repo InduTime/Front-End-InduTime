@@ -108,13 +108,6 @@ body {
 }
 
 .sideBar a:nth-child(3)::before {
-  content: "▥";
-  margin-right: 9px;
-  color: #8794aa;
-  font-size: 13px;
-}
-
-.sideBar a:nth-child(4)::before {
   content: "⚙";
   margin-right: 9px;
   color: #8794aa;
@@ -125,7 +118,7 @@ body {
    USUÁRIO
    ========================================================= */
 
-.sideBar a:nth-child(5) {
+.sideBar a:nth-child(4) {
   margin-top: auto;
   margin-bottom: 0;
   padding-left: 38px;
@@ -135,7 +128,7 @@ body {
   font-weight: 500;
 }
 
-.sideBar a:nth-child(5)::before {
+.sideBar a:nth-child(4)::before {
   content: "CS";
 
   position: absolute;
