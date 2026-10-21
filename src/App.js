@@ -7,6 +7,7 @@ import imagemCnc from './assets/cnc.jpeg';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import DashBoard from './tela/DashBoard';
 import Historico from './tela/Historico';
+import Configuracao from './tela/Configuracao';
 
 function App() {
 
@@ -80,6 +81,7 @@ function App() {
         }/>
       <Route path="/DashBoard"element={<DashBoard/>}/>
       <Route path="/Historico"element={<Historico/>}/>
+      <Route path="/Configuracao"element={<Configuracao/>}/>
     </Routes>
   </BrowserRouter>
   );
