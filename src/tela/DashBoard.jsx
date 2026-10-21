@@ -29,7 +29,7 @@ export default function DashBoard() {
             <div className="sideBar">
                 <a>Dashboard</a>
                 <Link to="/Historico">Histórico</Link>
-                <a>Configurações</a>
+                <Link to="/Configuracao">Configurações</Link>
 
                 <a>{dashboard.usuarioNome}</a>
                 <p>{dashboard.usuarioTipo}</p>

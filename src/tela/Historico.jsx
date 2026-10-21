@@ -8,24 +8,17 @@ import autoTable from "jspdf-autotable";
 export default function Historico() {
   const [historico] = useState(dados);
   const [paginaAtual, setPaginaAtual] = useState(1);
-
   const itensPorPagina = 10;
-
-  // O array de início define quantas operações serão exibidas.
   const totalOperacoes = historico.listaInicio.length;
-
   const totalPaginas = Math.max(
     1,
     Math.ceil(totalOperacoes / itensPorPagina)
   );
-
   const indiceInicial = (paginaAtual - 1) * itensPorPagina;
   const indiceFinal = Math.min(
     indiceInicial + itensPorPagina,
     totalOperacoes
   );
-
-  // Monta as linhas usando os arrays já existentes.
   const operacoesVisiveis = historico.listaInicio
     .slice(indiceInicial, indiceFinal)
     .map((inicio, index) => {
@@ -143,7 +136,7 @@ export default function Historico() {
       <div className="histSideBar">
         <Link to="/Dashboard">Dashboard</Link>
         <a>Histórico</a>
-        <a>Configurações</a>
+        <Link to="/Configuracao">Configurações</Link>
 
         <a>{historico.usuarioNome}</a>
         <p>{historico.usuarioTipo}</p>

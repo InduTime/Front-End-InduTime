@@ -56,5 +56,5 @@ export const dados = {
         "1h 35min"
     ],
     usuarioNome: "Rhuan Oliveira",
-    usuarioTipo: "Operador"
+    usuarioTipo: "Administrador"
 };
