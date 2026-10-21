@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../css/Historico.css";
 import { dados } from "../data/Dados";
 import { Link } from "react-router-dom";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function Historico() {
   const [historico] = useState(dados);
@@ -43,20 +45,110 @@ export default function Historico() {
     if (pagina >= 1 && pagina <= totalPaginas) {
       setPaginaAtual(pagina);
     }
+  };
+
+  
+  function gerarRel() {
+    const doc = new jsPDF();
+
+    // Título do relatório
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("Relatório de operações da máquina", 14, 20);
+
+    // Informações da máquina e do usuário
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+
+    doc.text(`Máquina: ${historico.maquina}`, 14, 32);
+    doc.text(`Usuário: ${historico.usuarioNome}`, 14, 39);
+    doc.text(`Tipo de usuário: ${historico.usuarioTipo}`, 14, 46);
+    doc.text(`Data da operação: ${historico.dataOperacao}`, 14, 53);
+
+    // Monta todas as operações, sem considerar a paginação da tela
+    const operacoes = historico.listaInicio.map((inicio, indice) => {
+      return [
+        historico.dataOperacao ?? "—",
+        inicio ?? "—",
+        historico.listaTermino[indice] ?? "—",
+        historico.duracao[indice] ?? "—",
+        historico.status === 1 ? "Em andamento" : "Concluída"
+      ];
+    });
+
+    // Cria a tabela no PDF
+    autoTable(doc, {
+      startY: 62,
+      head: [["Data", "Início", "Término", "Duração", "Status"]],
+      body: operacoes,
+      theme: "grid",
+      headStyles: {
+        fillColor: [41, 65, 100],
+        textColor: 255,
+        fontStyle: "bold"
+      },
+      styles: {
+        fontSize: 9,
+        cellPadding: 3
+      },
+      margin: {
+        left: 14,
+        right: 14
+      }
+    });
+
+    // Resumo após a tabela
+    const posicaoFinal = doc.lastAutoTable.finalY + 12;
+
+    // Se não houver espaço suficiente, inicia uma nova página
+    let posicaoResumo = posicaoFinal;
+
+    if (posicaoResumo > 260) {
+      doc.addPage();
+      posicaoResumo = 20;
+    }
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("Resumo da máquina", 14, posicaoResumo);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+
+    doc.text(
+      `Total de operações: ${historico.totalOperacoes}`,
+      14,
+      posicaoResumo + 9
+    );
+
+    doc.text(
+      `Tempo total de operação: ${historico.tempoEmOperacao}`,
+      14,
+      posicaoResumo + 17
+    );
+
+    doc.text(
+      `Disponibilidade média: ${historico.disponibilidade}%`,
+      14,
+      posicaoResumo + 25
+    );
+
+    // Gera o download do arquivo
+    doc.save(`relatorio-${historico.maquina}.pdf`);
   }
+
 
   return (
     <div className="histContainer">
       <div className="histSideBar">
         <Link to="/Dashboard">Dashboard</Link>
         <a>Histórico</a>
-        <a>Relatórios</a>
         <a>Configurações</a>
 
         <a>{historico.usuarioNome}</a>
         <p>{historico.usuarioTipo}</p>
 
-        <Link to="/login">Sair do sistema</Link>
+        <Link to="/">Sair do sistema</Link>
       </div>
 
       <div className="histCabecalho">
@@ -163,6 +255,11 @@ export default function Historico() {
           </p>
         </div>
       </div>
+
+      <button className="btnRelatorio" onClick={(e)=> gerarRel(e)}>
+          Gerar relatório da máquina em formato PDF
+      </button>
+      
     </div>
   );
 }

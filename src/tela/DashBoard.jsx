@@ -29,13 +29,12 @@ export default function DashBoard() {
             <div className="sideBar">
                 <a>Dashboard</a>
                 <Link to="/Historico">Histórico</Link>
-                <a>Relatórios</a>
                 <a>Configurações</a>
 
                 <a>{dashboard.usuarioNome}</a>
                 <p>{dashboard.usuarioTipo}</p>
 
-                <a>Sair do sistema</a>
+                <Link to="/">Sair do sistema</Link>
             </div>
 
             <div className="cabecalho">

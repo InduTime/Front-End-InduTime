@@ -105,13 +105,6 @@ body {
 }
 
 .histSideBar a:nth-child(3)::before {
-  content: "▥";
-  margin-right: 9px;
-  color: #8794aa;
-  font-size: 13px;
-}
-
-.histSideBar a:nth-child(4)::before {
   content: "⚙";
   margin-right: 9px;
   color: #8794aa;
@@ -122,7 +115,7 @@ body {
    USUÁRIO
    ========================================================= */
 
-.histSideBar a:nth-child(5) {
+.histSideBar a:nth-child(4) {
   margin-top: auto;
   margin-bottom: 0;
   padding-left: 38px;
@@ -132,7 +125,7 @@ body {
   font-weight: 500;
 }
 
-.histSideBar a:nth-child(5)::before {
+.histSideBar a:nth-child(4)::before {
   content: "CS";
 
   position: absolute;
@@ -676,5 +669,62 @@ body {
   .cardListaHist td {
     padding: 11px 10px;
     font-size: 10px;
+  }
+}
+
+/* =====================================================
+   BOTÃO RELATÓRIO
+   Alinhado no canto inferior direito
+   ===================================================== */
+
+.histContainer .btnRelatorio {
+  position: fixed;
+  z-index: 30;
+  right: 25px;
+  bottom: 20px;
+
+  min-height: 42px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #1b2b4d;
+  color: #fff;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(27, 43, 77, 0.15);
+
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.histContainer .btnRelatorio:hover {
+  background: #263b60;
+  transform: translateY(-2px);
+}
+
+.histContainer .btnRelatorio:active {
+  transform: translateY(0);
+}
+
+/* Ajuste para dispositivos móveis */
+@media (max-width: 700px) {
+  .histContainer .btnRelatorio {
+    right: 14px;
+    bottom: 14px;
+
+    max-width: calc(100% - 28px);
+    min-height: 40px;
+    padding: 0 14px;
+
+    font-size: 11px;
   }
 }
