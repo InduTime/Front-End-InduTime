@@ -1,37 +1,51 @@
-
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function TelaLogin({ cadastrar, esqueciSenha }) {
-
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [mensagemErro, setMensagemErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  function verific(f) {
-    const valor = f.target.value;
+  const navigate = useNavigate();
 
-    if (!valor.includes('@')) {
-      setMensagemErro('E-mail inválido. Digite um e-mail com @.');
-      return false;
-    }
-
+  async function entrar() {
     setMensagemErro('');
-    return true;
-  }
 
-  function email(f) {
-    if (f.key === 'Enter') {
-      entrar();
-    }
-  }
-
-  function entrar() {
-    const campoEmail = document.querySelector('input[type="email"]');
-
-    if (!verific({ target: campoEmail })) {
+    if (!email.includes('@')) {
+      setMensagemErro('E-mail inválido.');
       return;
     }
 
-    alert('E-mail cadastrado com sucesso!');
+    if (!senha) {
+      setMensagemErro('Digite sua senha.');
+      return;
+    }
+
+    setCarregando(true);
+
+    try {
+      // Como não há rota de autenticação real, verificamos se o usuário existe
+      const res = await fetch(`http://10.110.12.57:8080/usuarios/email/${encodeURIComponent(email)}`);
+      
+      if (!res.ok) {
+        // Se der erro 500 (Usuário não encontrado segundo a doc), consideramos login inválido
+        setMensagemErro('E-mail ou senha incorretos.');
+        setCarregando(false);
+        return;
+      }
+
+      // Se passou, o usuário existe. Vamos para o DashBoard!
+      navigate('/DashBoard');
+    } catch (error) {
+      setMensagemErro('Erro de conexão. A API está rodando?');
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') entrar();
   }
 
   return (
@@ -41,45 +55,40 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
       <input
         type="email"
         placeholder="E-mail"
-        onChange={verific}
-        onKeyDown={email}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
-
-      {mensagemErro && (
-        <p>{mensagemErro}</p>
-      )}
-
       <br />
 
       <input
         type="password"
         placeholder="Senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
-
       <br />
 
-      <Link
-            to="/DashBoard"
-            className="App-link"
-            >
-              <button onClick={entrar} style={{ "margin-bottom": "8px" }}>Entrar</button>  
-      </Link>
-
+      {mensagemErro && <p style={{ color: 'red' }}>{mensagemErro}</p>}
       <br />
 
-      <button onClick={esqueciSenha}>
+      <button onClick={entrar} disabled={carregando} style={{ marginBottom: '8px' }}>
+        {carregando ? 'Entrando...' : 'Entrar'}
+      </button> 
+      <br />
+
+      <button onClick={esqueciSenha} disabled={carregando}>
         Esqueci minha senha
       </button>
 
       <p>Não possui uma conta?</p>
 
-      <button onClick={cadastrar}>
+      <button onClick={cadastrar} disabled={carregando}>
         Criar cadastro
       </button>
-
     </div>
   );
 }
 
 export default TelaLogin;
-

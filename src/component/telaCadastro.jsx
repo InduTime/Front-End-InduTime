@@ -1,35 +1,49 @@
 import { useState } from 'react';
 
 function TelaCadastro({ voltar }) {
-
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [mensagemErro, setMensagemErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  function verificarEmail(e) {
-    const valor = e.target.value;
-
-    if (!valor.includes('@')) {
-      setMensagemErro('E-mail inválido. Digite um e-mail com @.');
-      return false;
-    }
-
+  async function cadastrar() {
     setMensagemErro('');
-    return true;
-  }
 
-  function email(e) {
-    if (e.key === 'Enter') {
-      verificarEmail(e);
-    }
-  }
-
-  function cadastrar() {
-    const campoEmail = document.querySelector('input[type="email"]');
-
-    if (!verificarEmail({ target: campoEmail })) {
+    if (!nome || !email || !senha) {
+      setMensagemErro('Preencha todos os campos.');
       return;
     }
 
-    alert('Cadastro realizado com sucesso!');
+    if (!email.includes('@')) {
+      setMensagemErro('E-mail inválido. Digite um e-mail com @.');
+      return;
+    }
+
+    setCarregando(true);
+
+    try {
+      const res = await fetch('http://10.110.12.57:8080/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, senha })
+      });
+
+      if (!res.ok) {
+        const erro = await res.json();
+        // A API retorna 500 para e-mail já cadastrado, ou 400 para validações
+        setMensagemErro(erro.message || 'Erro ao realizar cadastro.');
+        setCarregando(false);
+        return;
+      }
+
+      alert('Cadastro realizado com sucesso!');
+      voltar(); // Volta para a tela de login
+    } catch (error) {
+      setMensagemErro('Erro de conexão. Verifique se a API está rodando e o CORS.');
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
@@ -39,40 +53,39 @@ function TelaCadastro({ voltar }) {
       <input
         type="text"
         placeholder="Nome"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
       />
-
       <br />
 
       <input
         type="email"
         placeholder="E-mail"
-        onKeyDown={email}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
-
-      {mensagemErro && (
-        <p>{mensagemErro}</p>
-      )}
-
       <br />
 
       <input
         type="password"
         placeholder="Senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
       />
-
       <br />
 
-      <button onClick={cadastrar}>
-        Cadastrar
+      {mensagemErro && <p style={{ color: 'red' }}>{mensagemErro}</p>}
+      <br />
+
+      <button onClick={cadastrar} disabled={carregando}>
+        {carregando ? 'Cadastrando...' : 'Cadastrar'}
       </button>
 
-      <button onClick={voltar}>
+      <button onClick={voltar} disabled={carregando}>
         Voltar para Login
       </button>
-
     </div>
   );
 }
 
 export default TelaCadastro;
-
