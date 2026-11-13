@@ -1,190 +1,32 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Sidebar from "../component/Sidebar";
 import "../css/DashBoard.css";
-import { dados } from "../data/Dados";
-import Historico from "./Historico";
+import { buscarMaquina, rotuloEnum, rotuloStatus } from "../services/api";
 
 export default function DashBoard() {
-    const [dashboard, setDashboard] = useState(dados);
-
-    useEffect(() => {
-    const intervalo = setInterval(() => {
-        setDashboard((e) => {
-            return {
-                ...e,
-
-                disponibilidade: dados.disponibilidade,
-                progressoEstimado: dados.progressoEstimado,
-                dadosBarras: dados.dadosBarras
-            };
-        });
-    }, 1000);
-        return () => clearInterval(intervalo); 
-    }, []);
-
-    return (
-
-        <div className="container">
-
-            <div className="sideBar">
-                <a>Dashboard</a>
-                <Link to="/Historico">Histórico</Link>
-                <Link to="/Configuracao">Configurações</Link>
-
-                <a>{dashboard.usuarioNome}</a>
-                <p>{dashboard.usuarioTipo}</p>
-
-                <Link to="/">Sair do sistema</Link>
-            </div>
-
-            <div className="cabecalho">
-                <h1>Painel de monitoramento</h1>
-                <p>
-                    Acompanhamento operacional e telemetria em tempo real
-                </p>
-                
-                <a className="nome_da_maquina">
-                    {dashboard.maquina}
-                </a>
-                <input type="date" />
-            </div>
-
-            <div className="cards">
-
-                <div className="status">
-                    <p>Status do {dashboard.maquina}</p>
-                    <p className="operandoStatus" style={{color: dashboard.status === 1 ? "#00FF00" : dashboard.status === 0 ? "#FF0000" : ""}}>
-                        {
-                            dashboard.status === 1 ? 
-                            "Operando" : 
-                            dashboard.status === 0 ?
-                            "Parado" : ""
-                        }
-                    </p>
-                    <p>{
-                            dashboard.status === 1 ? 
-                            "Em operação" : 
-                            dashboard.status === 0 ?
-                            "Parado" : ""
-                        }</p>
-                </div>
-
-                <div className="operacao">
-                    <p>Tempo de Operação Hoje</p>
-                    <p>{dashboard.tempoEmOperacao}</p>
-                    <p>Meta diária: {dashboard.meta}</p>
-                </div>
-
-                <div className="parada">
-                    <p>Tempo Parado Hoje</p>
-                    <p>{dashboard.tempoParado}</p>
-                    <p>Manutenção ou Setup</p>
-                </div>
-
-                <div className="disponibilidade">
-
-                    <p>Disponibilidade</p>
-
-                    <p>{dashboard.disponibilidade}%</p>
-
-                    <p>Rendimento da máquina</p>
-
-                    <div
-                        className="graficoDisponibilidade"
-                        style={{
-                            "--progresso": `${dashboard.disponibilidade}%`
-                        }}
-                    >
-                        <span>
-                            {dashboard.disponibilidade}%
-                        </span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div className="grafico">
-                <h2>Tempo de Operação por Dia</h2>
-                <p>Histórico semanal de horas ativas</p>
-
-                <div className="barras">
-                    {dashboard.dadosBarras.map((dia, index) => (
-                        <div className="barraContainer" key={index}>
-
-                            <div
-                                className={`barra ${
-                                    index === dashboard.dadosBarras.length - 2
-                                        ? "barraAtual"
-                                        : ""
-                                }`}
-                                style={{
-                                    height: `${dia.valor}%`
-                                }}
-                                data-tooltip={`${dia.dia} - ${dia.horas}`}
-                            />
-
-                            <span>{dia.dia}</span>
-
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <div className="cardOperacao">
-
-                <h2>Operação Atual</h2>
-
-                <span>{dashboard.operando}</span>
-
-                <p>Início da atividade</p>
-
-                <p>{dashboard.tempoDecorrido}</p>
-
-                <p>{dashboard.progressoEstimado}%</p>
-
-                <div className="barraProgresso">
-                    <div
-                        className="barraProgressoValor"
-                        style={{
-                            width: `${dashboard.progressoEstimado}%`
-                        }}
-                    />
-                </div>
-
-            </div>
-
-
-            <div className="cardUltimaOperacao">
-
-                <h2>Últimas Operações</h2>
-
-                <p>Início</p>
-
-                <ul>
-                    {dashboard.listaInicio.map((inicio, index) => (
-                        <li key={index}>{inicio}</li>
-                    ))}
-                </ul>
-
-                <p>Término</p>
-
-                <ul>
-                    {dashboard.listaTermino.map((termino, index) => (
-                        <li key={index}>{termino}</li>
-                    ))}
-                </ul>
-
-                <p>Duração</p>
-
-                <ul>
-                    {dashboard.duracao.map((duracao, index) => (
-                        <li key={index}>{duracao}</li>
-                    ))}
-                </ul>
-
-            </div>
-
-        </div>
-    );
+  const { id } = useParams(); const navigate = useNavigate();
+  const [maquina, setMaquina] = useState(null); const [loading, setLoading] = useState(true); const [erro, setErro] = useState("");
+  useEffect(() => {
+    let ativo = true;
+    setLoading(true); setErro("");
+    buscarMaquina(id).then(data => { if (ativo) setMaquina(data); }).catch(e => { if (ativo) setErro(e.message); }).finally(() => { if (ativo) setLoading(false); });
+    return () => { ativo = false; };
+  }, [id]);
+  if (loading) return <div className="container"><Sidebar maquinaId={id} /><p>Carregando dados da máquina...</p></div>;
+  if (erro || !maquina) return <div className="container"><Sidebar maquinaId={id} /><h2>Não foi possível carregar a máquina</h2><p role="alert">{erro || "Máquina não encontrada."}</p><button onClick={() => navigate("/ListaMaquinas")}>Voltar para máquinas</button></div>;
+  const statusColor = maquina.status === "ONLINE" ? "#16a34a" : maquina.status === "OFFLINE" ? "#dc2626" : "#d97706";
+  return <div className="container">
+    <Sidebar maquinaId={id} />
+    <div className="cabecalho"><h1>Painel de monitoramento</h1><p>Informações cadastrais e telemetria disponibilizadas pela API.</p><span className="nome_da_maquina">{maquina.displayName}</span></div>
+    <div className="cards">
+      <div className="status"><p>Status da máquina</p><p className="operandoStatus" style={{ color: statusColor }}>{rotuloStatus(maquina.status)}</p><p>Estado informado pelo backend</p></div>
+      <div className="operacao"><p>Modelo</p><p>{rotuloEnum(maquina.model)}</p><p>Fabricante: {rotuloEnum(maquina.manufacturer)}</p></div>
+      <div className="parada"><p>Localização</p><p>{rotuloEnum(maquina.location)}</p><p>Série: {maquina.serialNumber || "Não informada"}</p></div>
+      <div className="disponibilidade"><p>Temperatura atual</p><p>{typeof maquina.temperature === "number" ? `${maquina.temperature.toFixed(1)} °C` : "Não disponível"}</p><p>Valor retornado pela API</p></div>
+    </div>
+    <section className="grafico"><h2>Telemetria</h2><p>O Swagger disponibiliza importação de leituras por CSV, mas não documenta consulta de histórico de temperatura. Nenhum gráfico histórico será inventado.</p></section>
+    <section className="cardOperacao"><h2>Dados da máquina</h2><p><strong>ID:</strong> {maquina.id}</p><p><strong>Nome:</strong> {maquina.displayName}</p><p><strong>Modelo:</strong> {maquina.model}</p><p><strong>Fabricante:</strong> {maquina.manufacturer}</p><p><strong>Setor:</strong> {maquina.location}</p><p><strong>Número de série:</strong> {maquina.serialNumber || "—"}</p></section>
+    <section className="cardUltimaOperacao"><h2>Operações e produtividade</h2><p>A API documentada não possui endpoints de operações, produção, tempo de funcionamento ou produtividade. Esses indicadores dependem de novas rotas no backend.</p></section>
+  </div>;
 }

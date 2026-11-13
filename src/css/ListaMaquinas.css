@@ -1,0 +1,298 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.listaMaquinas {
+    width: 100%;
+    min-height: 100vh;
+    padding-left: 150px;
+    background: #f4f6fa;
+    font-family: 'Inter', Arial, sans-serif;
+    color: #18243d;
+}
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+.histSideBar {
+    position: fixed;
+    z-index: 20;
+    inset: 0 auto 0 0;
+
+    width: 150px;
+    height: 100vh;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 28px 12px 16px;
+
+    background: #172642;
+    color: #fff;
+}
+
+.histSideBar a {
+    position: relative;
+
+    width: 100%;
+    min-height: 40px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 12px;
+    margin-bottom: 5px;
+
+    border-radius: 6px;
+
+    color: #9da9bd;
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    transition: background .2s ease, color .2s ease;
+}
+
+.histSideBar a:hover {
+    background: #243756;
+    color: #fff;
+}
+
+/* Dashboard */
+.histSideBar a:nth-of-type(1) {
+    background: #101e38;
+    color: #fff;
+}
+
+.histSideBar a:nth-of-type(1)::before {
+    content: "◷";
+    margin-right: 9px;
+    color: #19c86b;
+    font-size: 15px;
+}
+
+/* =====================================================
+   USUÁRIO
+   ===================================================== */
+
+.histSideBar a[href="#usuario"] {
+    margin-top: auto;
+    margin-bottom: 0;
+    padding-left: 25px;
+
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.histSideBar p {
+    margin-left: 38px;
+    margin-top: 1px;
+    margin-bottom: 10px;
+
+    color: #8d99ad;
+
+    font-size: 10px;
+}
+
+/* =====================================================
+   SAIR DO SISTEMA
+   ===================================================== */
+
+.histSideBar a:last-of-type {
+    min-height: 34px;
+    margin-bottom: 0;
+
+    background: #10203c;
+    color: #ef5350;
+
+    font-size: 11px;
+}
+
+.histSideBar a:last-of-type:hover {
+    background: #203252;
+}
+
+.histSideBar a:last-of-type::before {
+    content: "↪";
+    margin-right: 7px;
+    color: #ef5350;
+    font-size: 14px;
+}
+
+/* CONTEÚDO */
+
+.conteudoMaquinas {
+    padding: 28px 24px;
+}
+
+.cabecalhoMaquinas {
+    margin-bottom: 30px;
+}
+
+.cabecalhoMaquinas h1 {
+    margin-bottom: 7px;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.cabecalhoMaquinas p {
+    color: #8290a7;
+    font-size: 12px;
+}
+
+/* GRID */
+
+.gradeMaquinas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* CARD */
+
+.cardMaquina {
+    position: relative;
+
+    min-height: 170px;
+    padding: 20px;
+
+    background: #fff;
+    border: 1px solid #e4e9f0;
+    border-radius: 8px;
+
+    box-shadow: 0 1px 3px rgba(20, 35, 60, .025);
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.cardMaquina:hover {
+    transform: translateY(-4px);
+    border-color: #2877ee;
+    box-shadow: 0 5px 16px rgba(20, 35, 60, .09);
+}
+
+.cardMaquina:focus-visible {
+    outline: 2px solid #2877ee;
+    outline-offset: 3px;
+}
+
+.iconeMaquina {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 14px;
+
+    border-radius: 8px;
+    background: #edf3fc;
+
+    color: #2877ee;
+    font-size: 21px;
+}
+
+.informacoesMaquina h2 {
+    margin-bottom: 6px;
+    color: #18243d;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.informacoesMaquina p {
+    color: #8793a6;
+    font-size: 11px;
+}
+
+.statusMaquina {
+    position: absolute;
+    top: 20px;
+    right: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    color: #718097;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.indicadorOperando,
+.indicadorParado {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.indicadorOperando {
+    background: #19bd67;
+}
+
+.indicadorParado {
+    background: #ef5350;
+}
+
+.acessarMaquina {
+    margin-top: 18px;
+    color: #2877ee;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.semMaquinas {
+    grid-column: 1 / -1;
+    padding: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #e4e9f0;
+    border-radius: 8px;
+}
+
+.semMaquinas p {
+    margin-top: 8px;
+    color: #8793a6;
+    font-size: 12px;
+}
+
+/* TABLET */
+
+@media (max-width: 1100px) {
+    .gradeMaquinas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+    .listaMaquinas {
+        padding-left: 0;
+    }
+
+    .menuMaquinas {
+        display: none;
+    }
+
+    .conteudoMaquinas {
+        padding: 22px 15px;
+    }
+
+    .cabecalhoMaquinas h1 {
+        font-size: 20px;
+    }
+
+    .gradeMaquinas {
+        grid-template-columns: 1fr;
+    }
+}
