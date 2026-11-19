@@ -111,11 +111,18 @@ body {
   font-size: 13px;
 }
 
+.histSideBar a:nth-child(4)::before {
+  content: "⚙";
+  margin-right: 9px;
+  color: #8794aa;
+  font-size: 13px;
+}
+
 /* =========================================================
    USUÁRIO
    ========================================================= */
 
-.histSideBar a:nth-child(4) {
+.histSideBar a:nth-child(5) {
   margin-top: auto;
   margin-bottom: 0;
   padding-left: 25px;

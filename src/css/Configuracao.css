@@ -113,11 +113,17 @@ body {
   font-size: 15px;
 }
 
+.ConfSideBar a:nth-child(4)::before {
+  content: "◷";
+  margin-right: 9px;
+  color: #8794aa;
+}
+
 /* =========================================================
    USUÁRIO NA SIDEBAR
    ========================================================= */
 
-.ConfSideBar a:nth-child(4) {
+.ConfSideBar a:nth-child(5) {
   margin-top: auto;
   margin-bottom: 0;
   padding-left: 25px;

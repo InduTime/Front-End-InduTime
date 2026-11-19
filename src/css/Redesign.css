@@ -1,0 +1,355 @@
+/* =========================================================
+   INDUTIME — VISUAL SYSTEM (área interna do produto)
+   Login, cadastro e recuperação de senha não são afetados.
+   ========================================================= */
+:root {
+  --it-ink: #14233d;
+  --it-muted: #718096;
+  --it-subtle: #98a4b5;
+  --it-line: #e5ebf3;
+  --it-bg: #f3f6fb;
+  --it-surface: #ffffff;
+  --it-navy: #142541;
+  --it-navy-2: #1c3559;
+  --it-blue: #3478e5;
+  --it-blue-soft: #edf4ff;
+  --it-green: #169b68;
+  --it-green-soft: #e9f8f1;
+  --it-red: #d84d5a;
+  --it-red-soft: #fff0f1;
+  --it-amber: #b7791f;
+  --it-amber-soft: #fff7e8;
+  --it-shadow: 0 12px 32px rgba(20, 37, 65, .055);
+}
+
+.container, .listaMaquinas, .histContainer, .ConfContainer {
+  min-height: 100vh !important;
+  background: var(--it-bg) !important;
+  color: var(--it-ink) !important;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+/* Navegação lateral */
+.sideBar, .histSideBar, .ConfSideBar {
+  position: fixed !important;
+  z-index: 30 !important;
+  inset: 0 auto 0 0 !important;
+  width: 248px !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+  padding: 28px 17px !important;
+  background: linear-gradient(180deg, #172b49 0%, #10213a 100%) !important;
+  border: 0 !important;
+  box-shadow: 8px 0 28px rgba(15, 31, 54, .08) !important;
+}
+.sideBar::before, .histSideBar::before, .ConfSideBar::before {
+  content: "InduTime";
+  display: block;
+  padding: 2px 13px 32px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.7px;
+}
+.sideBar::after, .histSideBar::after, .ConfSideBar::after {
+  content: "MONITORAMENTO INDUSTRIAL";
+  display: block;
+  margin-top: auto;
+  padding: 18px 12px 4px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  color: #8295b1;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+.sideBar a, .histSideBar a, .ConfSideBar a {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 46px !important;
+  padding: 0 14px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  color: #c2cde0 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+.sideBar a:hover, .histSideBar a:hover, .ConfSideBar a:hover,
+.sideBar a:focus-visible, .histSideBar a:focus-visible, .ConfSideBar a:focus-visible {
+  color: #fff !important;
+  background: rgba(255,255,255,.11) !important;
+  transform: translateX(2px);
+  outline: none;
+}
+.sideBar a:last-child, .histSideBar a:last-child, .ConfSideBar a:last-child {
+  color: #ffb8bd !important;
+}
+
+/* Área de conteúdo e cabeçalhos */
+.container { padding: 0 34px 42px 282px !important; }
+.listaMaquinas, .histContainer, .ConfContainer { display: block !important; }
+.conteudoMaquinas, .histConteudo, .ConfConteudo { margin-left: 248px !important; padding: 38px 42px 56px !important; width: auto !important; max-width: 1600px !important; }
+.cabecalho, .cabecalhoMaquinas, .histCabecalho, .ConfCabecalho {
+  position: relative !important;
+  min-height: 112px !important;
+  padding: 0 0 28px !important;
+  margin: 0 0 28px !important;
+  border-bottom: 1px solid var(--it-line) !important;
+}
+.cabecalho h1, .cabecalhoMaquinas h1, .histCabecalho h1, .ConfCabecalho h1 {
+  margin: 0 0 9px !important;
+  color: var(--it-ink) !important;
+  font-size: clamp(25px, 2.2vw, 32px) !important;
+  font-weight: 780 !important;
+  letter-spacing: -1.1px !important;
+}
+.cabecalho p, .cabecalhoMaquinas p, .histCabecalho p, .ConfCabecalho p {
+  color: var(--it-muted) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+.nome_da_maquina {
+  position: static !important;
+  display: inline-flex !important;
+  margin-top: 15px !important;
+  padding: 7px 12px !important;
+  border-radius: 8px !important;
+  background: var(--it-blue-soft) !important;
+  color: #285eae !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* Dashboard */
+.cards { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 18px !important; padding: 0 !important; margin: 0 0 22px !important; }
+.cards > div, .grafico, .cardOperacao, .cardUltimaOperacao {
+  position: relative !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 150px !important;
+  margin: 0 0 20px !important;
+  padding: 23px !important;
+  border: 1px solid var(--it-line) !important;
+  border-radius: 16px !important;
+  background: var(--it-surface) !important;
+  box-shadow: var(--it-shadow) !important;
+}
+.cards > div { min-height: 142px !important; }
+.cards p:first-child { color: var(--it-muted) !important; font-size: 12px !important; font-weight: 650 !important; }
+.cards p:nth-child(2) { color: var(--it-ink) !important; font-size: 27px !important; font-weight: 780 !important; letter-spacing: -.7px; }
+.cards p:nth-child(3) { color: var(--it-subtle) !important; font-size: 11px !important; }
+.grafico h2, .cardOperacao h2, .cardUltimaOperacao h2 { margin: 0 0 13px !important; color: var(--it-ink) !important; font-size: 17px !important; font-weight: 750 !important; letter-spacing: -.3px; }
+.grafico p, .cardOperacao p, .cardUltimaOperacao p { color: var(--it-muted) !important; font-size: 13px !important; line-height: 1.7 !important; }
+.cardOperacao, .cardUltimaOperacao { display: block !important; vertical-align: initial !important; }
+
+/* Lista de máquinas */
+.conteudoMaquinas > section:first-of-type {
+  display: flex !important; align-items: end !important; gap: 13px !important;
+  padding: 18px !important; margin: 0 0 24px !important;
+  border: 1px solid var(--it-line) !important; border-radius: 14px !important;
+  background: #fff !important; box-shadow: var(--it-shadow) !important;
+}
+.conteudoMaquinas label { display: grid !important; gap: 7px !important; color: var(--it-muted) !important; font-size: 11px !important; font-weight: 700 !important; }
+input, select, textarea { font: inherit; }
+.conteudoMaquinas select, .ConfCampo input, .ConfCampo select {
+  min-height: 42px !important; padding: 0 12px !important;
+  border: 1px solid #dce4ef !important; border-radius: 9px !important;
+  background: #fbfcfe !important; color: var(--it-ink) !important; font-size: 13px !important;
+}
+.conteudoMaquinas button, .ConfConteudo button, .container button {
+  min-height: 41px; padding: 0 16px; border: 0; border-radius: 9px;
+  background: var(--it-blue); color: #fff; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: .18s ease;
+}
+.conteudoMaquinas button:hover, .ConfConteudo button:hover, .container button:hover { background: #2464c7; transform: translateY(-1px); }
+.gradeMaquinas { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)) !important; gap: 18px !important; }
+.cardMaquina {
+  position: relative !important; display: flex !important; flex-direction: column !important;
+  min-height: 245px !important; padding: 22px !important; gap: 13px !important;
+  border: 1px solid var(--it-line) !important; border-radius: 16px !important;
+  background: #fff !important; box-shadow: var(--it-shadow) !important;
+  cursor: pointer !important; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.cardMaquina:hover { transform: translateY(-4px) !important; border-color: #b9d0f5 !important; box-shadow: 0 18px 38px rgba(36, 83, 150, .11) !important; }
+.iconeMaquina { display: grid !important; place-items: center !important; width: 48px !important; height: 48px !important; border-radius: 13px !important; background: var(--it-blue-soft) !important; color: var(--it-blue) !important; font-size: 24px !important; }
+.informacoesMaquina { display: grid !important; gap: 6px !important; }
+.informacoesMaquina h2 { color: var(--it-ink) !important; font-size: 17px !important; font-weight: 750 !important; }
+.informacoesMaquina p { color: var(--it-muted) !important; font-size: 12px !important; line-height: 1.45 !important; }
+.statusMaquina { display: inline-flex !important; align-items: center !important; align-self: flex-start !important; gap: 7px !important; padding: 6px 10px !important; border-radius: 30px !important; background: #f1f5f9 !important; color: #53657d !important; font-size: 11px !important; font-weight: 750 !important; }
+.indicadorOperando, .indicadorParado { width: 7px !important; height: 7px !important; border-radius: 50% !important; background: var(--it-green) !important; }
+.indicadorParado { background: var(--it-red) !important; }
+.acessarMaquina { margin-top: auto !important; padding-top: 12px !important; border-top: 1px solid var(--it-line) !important; color: var(--it-blue) !important; font-size: 12px !important; font-weight: 750 !important; }
+.semMaquinas { grid-column: 1 / -1; padding: 46px 24px; border: 1px dashed #cbd6e5; border-radius: 16px; background: #fff; text-align: center; }
+.semMaquinas h2 { margin-bottom: 8px; font-size: 18px; }
+.semMaquinas p { color: var(--it-muted); font-size: 13px; }
+
+/* Histórico */
+.histCards { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; gap: 18px !important; }
+.cardListaHist { padding: 30px !important; border: 1px solid var(--it-line) !important; border-radius: 16px !important; background: #fff !important; box-shadow: var(--it-shadow) !important; }
+.cardListaHist h2 { margin-bottom: 13px !important; color: var(--it-ink) !important; font-size: 19px !important; }
+.cardListaHist p { max-width: 850px; margin-top: 9px !important; color: var(--it-muted) !important; font-size: 13px !important; line-height: 1.75 !important; }
+
+/* Configurações */
+.ConfTituloSecao, .ConfTituloFormulario { display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 18px !important; margin-bottom: 18px !important; }
+.ConfTituloSecao h2, .ConfTituloFormulario h2, .ConfFormulario > h2 { color: var(--it-ink) !important; font-size: 18px !important; font-weight: 760 !important; }
+.ConfTituloSecao p, .ConfTituloFormulario p, .ConfFormulario > p { margin-top: 6px !important; color: var(--it-muted) !important; font-size: 12px !important; line-height: 1.6 !important; }
+.ConfSecaoMaquinas, .ConfFormulario { margin: 0 0 22px !important; padding: 25px !important; border: 1px solid var(--it-line) !important; border-radius: 16px !important; background: #fff !important; box-shadow: var(--it-shadow) !important; }
+.ConfListaMaquinas { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; gap: 10px !important; }
+.ConfItemMaquina { margin: 0 !important; border: 1px solid var(--it-line) !important; border-radius: 11px !important; background: #fbfcfe !important; overflow: hidden; }
+.ConfItemMaquina.selecionada { border-color: #8db5f2 !important; background: var(--it-blue-soft) !important; }
+.ConfSelecionarMaquina { width: 100% !important; display: flex !important; align-items: center !important; gap: 11px !important; padding: 13px !important; border: 0 !important; background: transparent !important; color: var(--it-ink) !important; text-align: left !important; cursor: pointer; }
+.ConfSelecionarMaquina:hover { transform: none !important; background: transparent !important; }
+.ConfIconeMaquina { display: grid !important; place-items: center !important; flex: 0 0 38px !important; width: 38px !important; height: 38px !important; border-radius: 10px !important; background: #eaf1fc !important; color: var(--it-blue) !important; }
+.ConfInfoMaquina { display: grid !important; gap: 4px !important; min-width: 0; }
+.ConfInfoMaquina strong { color: var(--it-ink) !important; font-size: 12px !important; }
+.ConfInfoMaquina small { color: var(--it-muted) !important; font-size: 10px !important; }
+.ConfSetaMaquina { margin-left: auto !important; color: var(--it-blue) !important; font-size: 20px !important; }
+.ConfGradeCampos { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 18px !important; margin: 22px 0 !important; }
+.ConfCampo { display: grid !important; gap: 8px !important; }
+.ConfCampo label { color: #53647c !important; font-size: 11px !important; font-weight: 750 !important; }
+.ConfCampo input, .ConfCampo select { width: 100% !important; }
+.ConfBotaoExcluir { background: var(--it-red) !important; }
+.ConfBotaoExcluir:hover { background: #bd3947 !important; }
+.ConfConteudo > p { color: var(--it-muted) !important; font-size: 12px !important; line-height: 1.7 !important; }
+
+/* Estados de feedback */
+[role="alert"] { padding: 13px 15px !important; border: 1px solid #f4c7cc !important; border-radius: 10px !important; background: var(--it-red-soft) !important; color: #a63240 !important; font-size: 13px !important; }
+[role="status"] { padding: 13px 15px !important; border: 1px solid #bce7d2 !important; border-radius: 10px !important; background: var(--it-green-soft) !important; color: #13764f !important; font-size: 13px !important; }
+
+/* Responsividade */
+@media (max-width: 1100px) {
+  .sideBar, .histSideBar, .ConfSideBar { width: 214px !important; }
+  .container { padding-left: 244px !important; }
+  .conteudoMaquinas, .histConteudo, .ConfConteudo { margin-left: 214px !important; padding: 30px 26px 44px !important; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 720px) {
+  .sideBar, .histSideBar, .ConfSideBar {
+    position: sticky !important; inset: auto !important; width: 100% !important; height: auto !important; min-height: 0 !important;
+    flex-direction: row !important; align-items: center !important; gap: 5px !important; padding: 10px !important; overflow-x: auto !important;
+  }
+  .sideBar::before, .histSideBar::before, .ConfSideBar::before { flex: 0 0 auto; padding: 0 10px; font-size: 16px; }
+  .sideBar::after, .histSideBar::after, .ConfSideBar::after { display: none; }
+  .sideBar a, .histSideBar a, .ConfSideBar a { flex: 0 0 auto; min-height: 38px !important; padding: 0 10px !important; font-size: 11px !important; }
+  .container { padding: 0 16px 30px !important; }
+  .conteudoMaquinas, .histConteudo, .ConfConteudo { margin: 0 !important; padding: 26px 16px 36px !important; }
+  .cabecalho, .cabecalhoMaquinas, .histCabecalho, .ConfCabecalho { min-height: 0 !important; padding-bottom: 20px !important; }
+  .cards { grid-template-columns: 1fr !important; }
+  .conteudoMaquinas > section:first-of-type { align-items: stretch !important; flex-direction: column !important; }
+  .conteudoMaquinas label, .conteudoMaquinas select { width: 100% !important; }
+  .ConfGradeCampos { grid-template-columns: 1fr !important; }
+  .ConfTituloSecao, .ConfTituloFormulario { align-items: flex-start !important; flex-direction: column !important; }
+  .gradeMaquinas { grid-template-columns: 1fr !important; }
+}
+
+/* Sidebar unificada: navegação da lista e das páginas vinculadas à máquina */
+.itSidebar {
+  position: fixed !important;
+  z-index: 40 !important;
+  inset: 0 auto 0 0 !important;
+  width: 248px !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 28px 17px 20px !important;
+  background: linear-gradient(180deg, #172b49 0%, #10213a 100%) !important;
+  box-shadow: 8px 0 28px rgba(15, 31, 54, .08) !important;
+}
+.itSidebarBrand {
+  display: block; padding: 2px 13px 34px; color: #fff !important;
+  font-size: 23px; font-weight: 800; letter-spacing: -.7px; text-decoration: none;
+}
+.itSidebarNav { display: flex; flex-direction: column; gap: 8px; }
+.itSidebar .itSidebarLink {
+  display: flex !important; align-items: center !important; gap: 12px !important;
+  min-height: 46px !important; padding: 0 14px !important; border-radius: 10px !important;
+  color: #c2cde0 !important; font-size: 13px !important; font-weight: 650 !important;
+  text-decoration: none !important; transition: background .18s ease, color .18s ease;
+}
+.itSidebar .itSidebarLink span { width: 18px; text-align: center; font-size: 17px; }
+.itSidebar .itSidebarLink:hover, .itSidebar .itSidebarLink.active { color: #fff !important; background: rgba(255,255,255,.13) !important; }
+.itSidebarBottom { display: grid; gap: 14px; margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.12); }
+.itSidebarUser { display: flex; align-items: center; gap: 11px; padding: 5px 8px; color: #fff; }
+.itSidebarAvatar { display: grid; place-items: center; width: 35px; height: 35px; border-radius: 50%; background: #2d4e78; color: #fff; font-size: 13px; font-weight: 800; }
+.itSidebarUser strong, .itSidebarUser small { display: block; }
+.itSidebarUser strong { font-size: 12px; }
+.itSidebarUser small { margin-top: 3px; color: #91a3bd; font-size: 10px; }
+.itSidebar .itSidebarLogout { display: flex; align-items: center; gap: 10px; min-height: 42px; padding: 0 14px; border-radius: 9px; color: #ffb8bd !important; font-size: 13px; font-weight: 650; text-decoration: none; }
+.itSidebar .itSidebarLogout:hover { background: rgba(255,255,255,.09); }
+@media (max-width: 760px) {
+  .itSidebar { width: 76px !important; padding: 22px 9px 14px !important; }
+  .itSidebarBrand { padding: 4px 0 28px; overflow: hidden; font-size: 0; }
+  .itSidebarBrand::first-letter { font-size: 21px; }
+  .itSidebar .itSidebarLink { justify-content: center !important; padding: 0 5px !important; font-size: 0 !important; }
+  .itSidebar .itSidebarLink span { font-size: 19px; }
+  .itSidebarUser { justify-content: center; padding: 0; }
+  .itSidebarUser > span:last-child, .itSidebarLogout span { display: none; }
+  .itSidebar .itSidebarLogout { justify-content: center; padding: 0; font-size: 18px; }
+  .container { padding-left: 100px !important; }
+  .conteudoMaquinas, .histConteudo, .ConfConteudo { margin-left: 76px !important; padding: 28px 20px 42px !important; }
+}
+.itSidebar .itSidebarLink.isDisabled { opacity: .42; cursor: not-allowed; }
+
+/* Indicadores de operação atual (dados da API) */
+.painelConteudo { display: block; max-width: 1600px; margin: 0 auto; }
+.painelConteudo .valorData { font-size: 15px !important; line-height: 1.35; }
+.painelConteudo .resumoOperacao { display: grid; gap: 10px; }
+.painelConteudo .resumoOperacao p { margin: 0; }
+.painelConteudo code, .histAvisoDados code { padding: 2px 5px; border-radius: 5px; background: #eef2f7; color: #29415f; font-size: .92em; }
+
+/* Histórico da sessão atual */
+.histConteudo { min-width: 0; }
+.histResumoAtual {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 20px;
+}
+.histResumoAtual > div {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+  padding: 20px 22px;
+  border: 1px solid var(--it-line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: var(--it-shadow);
+}
+.histRotulo { color: var(--it-muted); font-size: 11px; font-weight: 700; }
+.histResumoAtual strong { color: var(--it-ink); font-size: 17px; overflow-wrap: anywhere; }
+.histResumoAtual .histEstadoOnline { color: var(--it-green); }
+.histResumoAtual .histEstadoOffline { color: var(--it-muted); }
+.histTituloLista { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 22px; }
+.histTituloLista h2 { margin: 0 0 6px; }
+.histTituloLista p { margin: 0; }
+.histBadgeAtivo, .histBadgeParado {
+  display: inline-flex; align-items: center; width: fit-content; white-space: nowrap;
+  padding: 6px 10px; border-radius: 20px; background: var(--it-green-soft); color: var(--it-green);
+  font-size: 10px; font-weight: 800; letter-spacing: .35px;
+}
+.histBadgeParado { background: #f1f4f8; color: #65748a; }
+.histEvento { display: flex; align-items: center; gap: 14px; padding: 18px; border: 1px solid #e7edf4; border-radius: 12px; background: #fbfcfe; }
+.histEventoIcone { display: grid; place-items: center; flex: 0 0 42px; width: 42px; height: 42px; border-radius: 12px; background: var(--it-green-soft); color: var(--it-green); font-size: 23px; }
+.histEventoConteudo { display: grid; gap: 5px; flex: 1; min-width: 0; }
+.histEventoConteudo strong { color: var(--it-ink); font-size: 13px; }
+.histEventoConteudo span, .histEventoConteudo small { color: var(--it-muted); font-size: 11px; }
+.histSemEvento { padding: 20px; border: 1px dashed #d6dfeb; border-radius: 12px; background: #fbfcfe; }
+.histSemEvento p { margin: 0 0 8px; }
+.histSemEvento p:last-child { margin-bottom: 0; }
+.histAvisoDados { margin-top: 18px; padding: 18px 20px; border: 1px solid #dce7f5; border-radius: 13px; background: #f7faff; }
+.histAvisoDados strong { color: var(--it-ink); font-size: 12px; }
+.histAvisoDados p { margin: 8px 0 0; color: var(--it-muted); font-size: 12px; line-height: 1.7; }
+.histErro { margin: 12px 0; color: #b42318; }
+
+@media (max-width: 900px) {
+  .histResumoAtual { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .histTituloLista { align-items: flex-start; flex-direction: column; }
+  .histEvento { align-items: flex-start; flex-wrap: wrap; }
+}

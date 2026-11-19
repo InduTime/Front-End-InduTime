@@ -1,258 +1,129 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Sidebar from "../component/Sidebar";
 import "../css/Historico.css";
-import { dados } from "../data/Dados";
-import { Link } from "react-router-dom";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+import "../css/Redesign.css";
+import { buscarMaquina, rotuloStatus } from "../services/api";
+import { formatarDataHora, formatarDuracaoSegundos, valorNumericoValido } from "../utils/formatacao";
 
 export default function Historico() {
-  const [historico] = useState(dados);
-  const [paginaAtual, setPaginaAtual] = useState(1);
-  const itensPorPagina = 10;
-  const totalOperacoes = historico.listaInicio.length;
-  const totalPaginas = Math.max(
-    1,
-    Math.ceil(totalOperacoes / itensPorPagina)
-  );
-  const indiceInicial = (paginaAtual - 1) * itensPorPagina;
-  const indiceFinal = Math.min(
-    indiceInicial + itensPorPagina,
-    totalOperacoes
-  );
-  const operacoesVisiveis = historico.listaInicio
-    .slice(indiceInicial, indiceFinal)
-    .map((inicio, index) => {
-      const indice = indiceInicial + index;
+  const { id } = useParams();
+  const [maquina, setMaquina] = useState(null);
+  const [segundosOperacao, setSegundosOperacao] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState("");
 
-      return {
-        id: indice,
-        data: historico.dataOperacao,
-        inicio,
-        termino: historico.listaTermino[indice] || "—",
-        duracao: historico.duracao[indice] || "—",
-        status: historico.status
-      };
-    });
+  useEffect(() => {
+    let ativo = true;
+    let primeiraCarga = true;
 
-  function irParaPagina(pagina) {
-    if (pagina >= 1 && pagina <= totalPaginas) {
-      setPaginaAtual(pagina);
-    }
-  };
-
-  
-  function gerarRel() {
-    const doc = new jsPDF();
-
-    // Título do relatório
-    doc.setFontSize(18);
-    doc.setFont("helvetica", "bold");
-    doc.text("Relatório de operações da máquina", 14, 20);
-
-    // Informações da máquina e do usuário
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "normal");
-
-    doc.text(`Máquina: ${historico.maquina}`, 14, 32);
-    doc.text(`Usuário: ${historico.usuarioNome}`, 14, 39);
-    doc.text(`Tipo de usuário: ${historico.usuarioTipo}`, 14, 46);
-    doc.text(`Data da operação: ${historico.dataOperacao}`, 14, 53);
-
-    // Monta todas as operações, sem considerar a paginação da tela
-    const operacoes = historico.listaInicio.map((inicio, indice) => {
-      return [
-        historico.dataOperacao ?? "—",
-        inicio ?? "—",
-        historico.listaTermino[indice] ?? "—",
-        historico.duracao[indice] ?? "—",
-        historico.status === 1 ? "Em andamento" : "Concluída"
-      ];
-    });
-
-    // Cria a tabela no PDF
-    autoTable(doc, {
-      startY: 62,
-      head: [["Data", "Início", "Término", "Duração", "Status"]],
-      body: operacoes,
-      theme: "grid",
-      headStyles: {
-        fillColor: [41, 65, 100],
-        textColor: 255,
-        fontStyle: "bold"
-      },
-      styles: {
-        fontSize: 9,
-        cellPadding: 3
-      },
-      margin: {
-        left: 14,
-        right: 14
+    async function carregar() {
+      try {
+        const dados = await buscarMaquina(id);
+        if (!ativo) return;
+        setMaquina(dados);
+        setErro("");
+      } catch (e) {
+        if (ativo) setErro(e.message);
+      } finally {
+        if (ativo && primeiraCarga) {
+          setLoading(false);
+          primeiraCarga = false;
+        }
       }
-    });
-
-    // Resumo após a tabela
-    const posicaoFinal = doc.lastAutoTable.finalY + 12;
-
-    // Se não houver espaço suficiente, inicia uma nova página
-    let posicaoResumo = posicaoFinal;
-
-    if (posicaoResumo > 260) {
-      doc.addPage();
-      posicaoResumo = 20;
     }
 
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.text("Resumo da máquina", 14, posicaoResumo);
+    if (id) carregar();
+    const intervalo = window.setInterval(() => { if (id) carregar(); }, 30000);
+    return () => {
+      ativo = false;
+      window.clearInterval(intervalo);
+    };
+  }, [id]);
 
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
+  useEffect(() => {
+    if (!maquina) return;
+    setSegundosOperacao(valorNumericoValido(maquina.totalOperatingSeconds) ? maquina.totalOperatingSeconds : 0);
+  }, [maquina]);
 
-    doc.text(
-      `Total de operações: ${historico.totalOperacoes}`,
-      14,
-      posicaoResumo + 9
-    );
+  useEffect(() => {
+    if (!maquina?.running) return undefined;
+    const intervalo = window.setInterval(() => setSegundosOperacao((valor) => valor + 1), 1000);
+    return () => window.clearInterval(intervalo);
+  }, [maquina?.running, maquina?.id]);
 
-    doc.text(
-      `Tempo total de operação: ${historico.tempoEmOperacao}`,
-      14,
-      posicaoResumo + 17
-    );
+  const emOperacao = maquina?.running === true;
+  const temTempo = valorNumericoValido(maquina?.totalOperatingSeconds);
+  const temTempoAcumulado = valorNumericoValido(maquina?.operatingTimeSeconds);
 
-    doc.text(
-      `Disponibilidade média: ${historico.disponibilidade}%`,
-      14,
-      posicaoResumo + 25
-    );
+  return <div className="histContainer">
+    <Sidebar maquinaId={id} />
+    <main className="histConteudo">
+      <header className="histCabecalho">
+        <h1>Histórico de operações</h1>
+        <p>{maquina ? `Máquina: ${maquina.displayName} · ID: ${maquina.id}` : "Acompanhamento da operação da máquina"}</p>
+      </header>
 
-    // Gera o download do arquivo
-    doc.save(`relatorio-${historico.maquina}.pdf`);
-  }
+      {loading && <section className="histCards"><div className="cardListaHist"><p>Carregando informações da máquina...</p></div></section>}
+      {erro && <p className="histErro" role="alert">{erro}</p>}
 
+      {!loading && maquina && (
+        <>
+          <section className="histResumoAtual">
+            <div>
+              <span className="histRotulo">Estado atual</span>
+              <strong className={emOperacao ? "histEstadoOnline" : "histEstadoOffline"}>{emOperacao ? "Em operação" : rotuloStatus(maquina.status)}</strong>
+            </div>
+            <div>
+              <span className="histRotulo">Duração da operação atual</span>
+              <strong>{emOperacao && temTempo ? formatarDuracaoSegundos(segundosOperacao) : "—"}</strong>
+            </div>
+            <div>
+              <span className="histRotulo">Início da operação atual</span>
+              <strong>{emOperacao ? formatarDataHora(maquina.operationStartedAt) : "—"}</strong>
+            </div>
+            <div>
+              <span className="histRotulo">Tempo acumulado desde a criação</span>
+              <strong>{temTempoAcumulado ? formatarDuracaoSegundos(maquina.operatingTimeSeconds) : "—"}</strong>
+            </div>
+          </section>
 
-  return (
-    <div className="histContainer">
-      <div className="histSideBar">
-        <Link to="/Dashboard">Dashboard</Link>
-        <a>Histórico</a>
-        <Link to="/Configuracao">Configurações</Link>
+          <section className="histCards">
+            <div className="cardListaHist">
+              <div className="histTituloLista">
+                <div>
+                  <h2>Sessão de operação</h2>
+                  <p>Informações atuais fornecidas pela rota de consulta da máquina.</p>
+                </div>
+                <span className={emOperacao ? "histBadgeAtivo" : "histBadgeParado"}>{emOperacao ? "EM ANDAMENTO" : "SEM OPERAÇÃO ATUAL"}</span>
+              </div>
 
-        <a>{historico.usuarioNome}</a>
-        <p>{historico.usuarioTipo}</p>
+              {emOperacao ? (
+                <div className="histEvento">
+                  <span className="histEventoIcone">⏻</span>
+                  <div className="histEventoConteudo">
+                    <strong>Máquina ligada / operação iniciada</strong>
+                    <span>{formatarDataHora(maquina.operationStartedAt)}</span>
+                    <small>Tempo decorrido informado pela API: {temTempo ? formatarDuracaoSegundos(segundosOperacao) : "não informado"}</small>
+                  </div>
+                  <span className="histBadgeAtivo">ONLINE</span>
+                </div>
+              ) : (
+                <div className="histSemEvento">
+                  <p>A API informa que não existe uma operação em andamento.</p>
+                  <p>Última telemetria recebida: {formatarDataHora(maquina.lastTelemetryAt)}.</p>
+                </div>
+              )}
+            </div>
+          </section>
 
-        <Link to="/">Sair do sistema</Link>
-      </div>
-
-      <div className="histCabecalho">
-            <h1>Histórico de operações</h1>
-            <p>
-                Registro completo de todos os ciclos de atividade da máquina
-            </p>
-            
-            <a className="nome_da_maquina">
-                {historico.maquina}
-            </a>
-            <input type="date" />
-        </div>
-
-      <div className="histCards">
-        <div className="cardListaHist">
-          <table>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Início</th>
-                <th>Término</th>
-                <th>Duração</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {operacoesVisiveis.map((operacao) => (
-                <tr key={operacao.id}>
-                  <td>{operacao.data}</td>
-                  <td>{operacao.inicio}</td>
-                  <td>{operacao.termino}</td>
-                  <td>{operacao.duracao}</td>
-                  <td>
-                    <span
-                      className={
-                        operacao.status === 1
-                          ? "statusAndamento"
-                          : "statusConcluida"
-                      }
-                    >
-                      {operacao.status === 1
-                        ? "Em andamento"
-                        : "Concluída"}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="cardPassarPaginas">
-          <span>
-            Mostrando {totalOperacoes === 0 ? 0 : indiceInicial + 1}
-            –{indiceFinal} de {totalOperacoes} operações
-          </span>
-
-          <button
-            disabled={paginaAtual === 1}
-            onClick={() => irParaPagina(paginaAtual - 1)}
-          >
-            Anterior
-          </button>
-
-          {Array.from(
-            { length: totalPaginas },
-            (_, index) => index + 1
-          ).map((pagina) => (
-            <button
-              key={pagina}
-              className={
-                paginaAtual === pagina ? "paginaAtiva" : ""
-              }
-              onClick={() => irParaPagina(pagina)}
-            >
-              {pagina}
-            </button>
-          ))}
-
-          <button
-            disabled={paginaAtual === totalPaginas}
-            onClick={() => irParaPagina(paginaAtual + 1)}
-          >
-            Próxima →
-          </button>
-        </div>
-
-        <div className="cardResumoHist">
-          <p>
-            Total de operações:{" "}
-            <strong>{historico.totalOperacoes}</strong>
-          </p>
-
-          <p>
-            Tempo total de operação:{" "}
-            <strong>{historico.tempoEmOperacao}</strong>
-          </p>
-
-          <p>
-            Disponibilidade média:{" "}
-            <strong>{historico.disponibilidade}%</strong>
-          </p>
-        </div>
-      </div>
-
-      <button className="btnRelatorio" onClick={(e)=> gerarRel(e)}>
-          Gerar relatório da máquina em formato PDF
-      </button>
-      
-    </div>
-  );
+          <section className="histAvisoDados">
+            <strong>Limite dos dados disponíveis</strong>
+            <p>A rota <code>GET /v1/cncmachine/{id}</code> informa a operação atual, mas não retorna uma lista de eventos anteriores de ligar e desligar. Por isso, esta tela mostra somente a sessão atual e não cria registros passados fictícios. Quando houver uma rota de eventos, ela poderá alimentar esta lista cronológica com todas as sessões reais.</p>
+            <p>A duração da sessão atual utiliza <code>totalOperatingSeconds</code>. O tempo acumulado desde a criação da máquina utiliza <code>operatingTimeSeconds</code>.</p>
+          </section>
+        </>
+      )}
+    </main>
+  </div>;
 }
