@@ -1,79 +1,61 @@
-# Front-End-OperacaoMaquina
+# InduTime — Frontend
 
-**A UNICA FUNÇÃO DO README NESSE PROJETO IRÁ SER 2**
+## Iniciar o projeto
 
-1- COMO INICIAR O PROJETO
+1. Instale o Node.js e o npm.
+2. Na pasta do projeto, instale as dependências:
 
-2-COMO ESTÁ A ESTRUTURA DE PASTAS
+   ```bash
+   npm ci
+   ```
 
+3. Copie o arquivo de configuração da API:
 
-# Getting Started with Create React App
+   ```bash
+   cp .env.example .env
+   ```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+4. Ajuste `REACT_APP_API_URL` no `.env`:
+   - `http://localhost:8080` se o backend estiver no mesmo computador;
+   - `http://10.110.12.51:8080` se o backend estiver disponível nesse endereço da rede, conforme o Swagger informado.
+5. Inicie o frontend:
 
-## Available Scripts
+   ```bash
+   npm start
+   ```
 
-In the project directory, you can run:
+A aplicação ficará disponível em `http://localhost:3000`.
 
-### `npm start`
+## Dados de operação
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `running` determina se existe uma operação em andamento.
+- `operatingTimeSeconds` é usado como duração da operação atual.
+- O contador visual avança localmente a cada segundo enquanto `running` for `true` e é sincronizado com a API a cada 30 segundos.
+- `operationStartedAt` mostra o início da operação atual.
+- `lastTelemetryAt` mostra a data/hora da última telemetria recebida.
+- `temperature` mostra a temperatura atual quando fornecida.
+- `totalOperatingSeconds` não é usado nesta versão, pois não é necessário para exibir a operação atual.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Limite do histórico:** `GET /v1/cncmachine/{id}` retorna dados da máquina e da operação atual, mas não uma coleção de eventos anteriores de ligar/desligar. A página Histórico não inventa sessões passadas; ela mostra a sessão atual. Para uma lista cronológica completa, o backend precisa fornecer uma rota de eventos/histórico.
 
-### `npm test`
+## Estrutura principal de pastas
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```text
+src/
+├── component/   # Componentes compartilhados, sidebar, login e cadastro
+├── css/         # Estilos das telas
+├── data/        # Dados auxiliares existentes
+├── services/    # Comunicação com a API
+├── tela/        # Dashboard, Histórico, Máquinas e Configurações
+├── utils/       # Formatação de duração e datas
+├── App.js       # Rotas da aplicação
+└── index.js     # Inicialização do React
+```
 
-### `npm run build`
+## Rotas principais
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `/` — login
+- `/ListaMaquinas` — lista de máquinas
+- `/maquinas/:id/DashBoard` — dashboard da máquina
+- `/Historico/:id` — histórico/sessão atual da máquina
+- `/Configuracao` e `/Configuracao/:id` — configurações

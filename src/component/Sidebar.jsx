@@ -3,7 +3,7 @@ import "../css/Redesign.css";
 
 export default function Sidebar({ maquinaId = null, paginaMaquinas = false }) {
   const destinoMaquinas = "/ListaMaquinas";
-  const destinoDashboard = maquinaId ? `/maquinas/${maquinaId}/DashBoard` : destinoMaquinas;
+  const destinoDashboard = maquinaId ? `/DashBoard/${maquinaId}` : destinoMaquinas;
   const destinoHistorico = maquinaId ? `/Historico/${maquinaId}` : destinoMaquinas;
   const destinoConfiguracoes = maquinaId ? `/Configuracao/${maquinaId}` : destinoMaquinas;
 

@@ -1,5 +1,5 @@
 // URL publicada no Swagger. Pode ser sobrescrita em .env por REACT_APP_API_URL.
-export const API_URL = (process.env.REACT_APP_API_URL || "http://localhost:8080").replace(/\/$/, "");
+export const API_URL = (process.env.REACT_APP_API_URL || "http://10.110.12.60:8081").replace(/\/$/, "");
 
 async function request(path, options = {}) {
   let response;

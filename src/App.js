@@ -4,10 +4,11 @@ import TelaCadastro from './component/telaCadastro';
 import EsqueciSenha from './component/esqueciSenha';
 import './App.css';
 import imagemCnc from './assets/cnc.jpeg';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import DashBoard from './tela/DashBoard';
 import Historico from './tela/Historico';
 import Configuracao from './tela/Configuracao';
+import ListaMaquinas from './tela/ListaMaquinas';
 
 function App() {
 
@@ -79,9 +80,12 @@ function App() {
 
         </div>
         }/>
-      <Route path="/DashBoard"element={<DashBoard/>}/>
-      <Route path="/Historico"element={<Historico/>}/>
-      <Route path="/Configuracao"element={<Configuracao/>}/>
+      <Route path="/DashBoard" element={<Navigate to="/ListaMaquinas" replace />} />
+      <Route path="/ListaMaquinas" element={<ListaMaquinas />} />
+      <Route path="/DashBoard/:id" element={<DashBoard />} />
+      <Route path="/Historico/:id" element={<Historico />} />
+      <Route path="/Configuracao" element={<Configuracao />} />
+      <Route path="/Configuracao/:id" element={<Configuracao />} />
     </Routes>
   </BrowserRouter>
   );

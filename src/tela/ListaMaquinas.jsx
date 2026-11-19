@@ -40,7 +40,7 @@ export default function ListaMaquinas() {
       {loading && <p>Carregando máquinas...</p>}
       {erro && <div role="alert" style={{ color: "#b42318", margin: "16px 0" }}><p>{erro}</p><button onClick={() => carregar()}>Tentar novamente</button></div>}
       {!loading && !erro && <section className="gradeMaquinas">
-        {maquinas.length ? maquinas.map(m => <article key={m.id} className="cardMaquina" onClick={() => navigate(`/maquinas/${m.id}/DashBoard`)} tabIndex={0} role="button" onKeyDown={e => { if (e.key === "Enter") navigate(`/maquinas/${m.id}/DashBoard`); }}>
+        {maquinas.length ? maquinas.map(m => <article key={m.id} className="cardMaquina" onClick={() => navigate(`/DashBoard/${m.id}`)} tabIndex={0} role="button" onKeyDown={e => { if (e.key === "Enter") navigate(`/DashBoard/${m.id}`); }}>
           <div className="iconeMaquina">⚙</div><div className="informacoesMaquina"><h2>{m.displayName}</h2><p>ID: {m.id} · {m.serialNumber || "Sem número de série"}</p><p>{rotuloEnum(m.model)} · {rotuloEnum(m.manufacturer)}</p><p>{rotuloEnum(m.location)}</p>{typeof m.temperature === "number" && <p>Temperatura: {m.temperature.toFixed(1)} °C</p>}</div>
           <span className="statusMaquina"><span className={m.status === "ONLINE" ? "indicadorOperando" : "indicadorParado"} />{rotuloStatus(m.status)}</span><div className="acessarMaquina">Acessar Dashboard →</div>
         </article>) : <div className="semMaquinas"><h2>Nenhuma máquina encontrada</h2><p>A API não retornou máquinas para os filtros selecionados.</p></div>}
