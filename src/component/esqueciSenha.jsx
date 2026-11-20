@@ -28,7 +28,7 @@ function EsqueciSenha({ voltar }) {
     setCarregando(true);
 
     try {
-      const res = await fetch(`http://10.110.12.57:8080/usuarios/email/${encodeURIComponent(email)}/senha`, {
+      const res = await fetch(`http://10.110.12.60:8088/usuarios/email/${encodeURIComponent(email)}/senha`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         // A documentação cortou antes de mostrar o formato, mas normalmente o PATCH recebe um JSON ou um texto simples.

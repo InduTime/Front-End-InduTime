@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,17 +26,20 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
     setCarregando(true);
 
     try {
-      // Como não há rota de autenticação real, verificamos se o usuário existe
-      const res = await fetch(`http://10.110.12.57:8080/usuarios/email/${encodeURIComponent(email)}`);
-      
+      const res = await fetch(
+        `http://10.110.12.60:8088/usuarios/email/${encodeURIComponent(email)}`
+      );
+
       if (!res.ok) {
-        // Se der erro 500 (Usuário não encontrado segundo a doc), consideramos login inválido
         setMensagemErro('E-mail ou senha incorretos.');
-        setCarregando(false);
         return;
       }
 
-      // Se passou, o usuário existe. Vamos para o DashBoard!
+      const usuario = await res.json();
+
+      // Salva os dados do usuário no navegador
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
       navigate('/DashBoard');
     } catch (error) {
       setMensagemErro('Erro de conexão. A API está rodando?');
@@ -59,6 +63,7 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
         onChange={(e) => setEmail(e.target.value)}
         onKeyDown={handleKeyDown}
       />
+
       <br />
 
       <input
@@ -68,14 +73,19 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
         onChange={(e) => setSenha(e.target.value)}
         onKeyDown={handleKeyDown}
       />
+
       <br />
 
-      {mensagemErro && <p style={{ color: 'red' }}>{mensagemErro}</p>}
+      {mensagemErro && (
+        <p style={{ color: 'red' }}>{mensagemErro}</p>
+      )}
+
       <br />
 
-      <button onClick={entrar} disabled={carregando} style={{ marginBottom: '8px' }}>
+      <button onClick={entrar} disabled={carregando}>
         {carregando ? 'Entrando...' : 'Entrar'}
-      </button> 
+      </button>
+
       <br />
 
       <button onClick={esqueciSenha} disabled={carregando}>
