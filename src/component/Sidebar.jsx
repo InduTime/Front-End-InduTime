@@ -37,27 +37,27 @@ export default function Sidebar({ maquinaId = null, paginaMaquinas = false }) {
       </Link>
 
      
-<nav>
+<nav className="itSidebarNav">
   {paginaMaquinas ? (
-    <NavLink to="/ListaMaquinas">
-      Máquinas
+    <NavLink className="itSidebarLink" to="/ListaMaquinas">
+      <span aria-hidden="true">▦</span>Máquinas
     </NavLink>
   ) : (
     <>
-      <NavLink to={destinoDashboard}>
-        Dashboard
+      <NavLink className="itSidebarLink" to={destinoDashboard}>
+        <span aria-hidden="true">▤</span>Dashboard
       </NavLink>
 
-      <NavLink to={destinoHistorico}>
-        Histórico
+      <NavLink className="itSidebarLink" to={destinoHistorico}>
+        <span aria-hidden="true">◷</span>Histórico
       </NavLink>
 
-      <NavLink to={destinoMaquinas}>
-        Máquinas
+      <NavLink className="itSidebarLink" to={destinoMaquinas}>
+        <span aria-hidden="true">▦</span>Máquinas
       </NavLink>
 
-      <NavLink to={destinoConfiguracoes}>
-        Configurações
+      <NavLink className="itSidebarLink" to={destinoConfiguracoes}>
+        <span aria-hidden="true">⚙</span>Configurações
       </NavLink>
     </>
   )}

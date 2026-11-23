@@ -109,11 +109,7 @@ export default function DashBoard() {
         <p><strong>Tempo total acumulado de operação:</strong> {temTempoAcumulado ? formatarDuracaoSegundos(maquina.operatingTimeSeconds) : "Não informado pela API"}</p>
       </section>
 
-      <section className="cardUltimaOperacao">
-        <h2>Sobre os dados operacionais</h2>
-        <p>O contador desta tela utiliza <code>totalOperatingSeconds</code>, que representa a duração da sessão de operação atual. Ele avança localmente enquanto <code>running</code> estiver verdadeiro. A tela atualiza os dados da API a cada 30 segundos.</p>
-        <p>O campo <code>operatingTimeSeconds</code> representa o tempo total acumulado de operação da máquina desde sua criação.</p>
-      </section>
+
     </main>
   </div>;
 }

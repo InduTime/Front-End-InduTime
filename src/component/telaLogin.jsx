@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../services/api';
 
 function TelaLogin({ cadastrar, esqueciSenha }) {
   const [email, setEmail] = useState('');
@@ -25,27 +26,39 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
 
     setCarregando(true);
 
-    try {
-      const res = await fetch(
-        `http://10.110.12.07:8083/usuarios/email/${encodeURIComponent(email)}`
-      );
+try {
+  // Busca todos os usuários cadastrados
+  const res = await fetch(`${API_URL}/usuarios`);
 
-      if (!res.ok) {
-        setMensagemErro('E-mail ou senha incorretos.');
-        return;
-      }
+  if (!res.ok) {
+    throw new Error('Não foi possível consultar os usuários.');
+  }
 
-      const usuario = await res.json();
+  const usuarios = await res.json();
 
-      // Salva os dados do usuário no navegador
-      localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+  // Procura o usuário pelo e-mail
+  const usuario = usuarios.find(
+    (u) =>
+      u.email?.trim().toLowerCase() === email.trim().toLowerCase()
+  );
 
-      navigate('/DashBoard');
-    } catch (error) {
-      setMensagemErro('Erro de conexão. A API está rodando?');
-    } finally {
-      setCarregando(false);
-    }
+  if (!usuario) {
+    setMensagemErro('E-mail ou senha incorretos.');
+    return;
+  }
+
+  // Salva os dados do usuário no navegador
+  localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
+  navigate('/DashBoard');
+
+} catch (error) {
+  console.error('Erro no login:', error);
+  setMensagemErro('Erro de conexão. A API está rodando?');
+
+} finally {
+  setCarregando(false);
+}
   }
 
   function handleKeyDown(e) {
@@ -53,50 +66,51 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="authConteudo">
+      <span className="authEyebrow">ÁREA DO CLIENTE</span>
+      <h1>Bem-vindo de volta</h1>
+      <p className="authDescricao">Entre com seus dados para acessar o monitoramento das máquinas.</p>
 
-      <input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        onKeyDown={handleKeyDown}
-      />
+      <div className="authCampo">
+        <label htmlFor="login-email">E-mail</label>
+        <input
+          id="login-email"
+          type="email"
+          placeholder="seu@email.com"
+          autoComplete="username"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+      </div>
 
-      <br />
+      <div className="authCampo">
+        <label htmlFor="login-senha">Senha</label>
+        <input
+          id="login-senha"
+          type="password"
+          placeholder="Digite sua senha"
+          autoComplete="current-password"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+      </div>
 
-      <input
-        type="password"
-        placeholder="Senha"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-        onKeyDown={handleKeyDown}
-      />
+      {mensagemErro && <p className="authErro" role="alert">{mensagemErro}</p>}
 
-      <br />
-
-      {mensagemErro && (
-        <p style={{ color: 'red' }}>{mensagemErro}</p>
-      )}
-
-      <br />
-
-      <button onClick={entrar} disabled={carregando}>
+      <button className="authBotaoPrimario" onClick={entrar} disabled={carregando}>
         {carregando ? 'Entrando...' : 'Entrar'}
       </button>
 
-      <br />
-
-      <button onClick={esqueciSenha} disabled={carregando}>
+      <button className="authBotaoTexto" onClick={esqueciSenha} disabled={carregando}>
         Esqueci minha senha
       </button>
 
-      <p>Não possui uma conta?</p>
-
-      <button onClick={cadastrar} disabled={carregando}>
-        Criar cadastro
-      </button>
+      <div className="authCadastro">
+        <span>Não possui uma conta?</span>
+        <button className="authBotaoCadastro" onClick={cadastrar} disabled={carregando}>Criar cadastro</button>
+      </div>
     </div>
   );
 }

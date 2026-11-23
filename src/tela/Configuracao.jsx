@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../component/Sidebar";
 import "../css/Configuracao.css";
-import { listarMaquinas, criarMaquina, atualizarMaquina, atualizarStatus, desativarMaquina, importarTelemetriaCSV, MODELOS, FABRICANTES, LOCALIZACOES, STATUS, rotuloEnum, rotuloStatus } from "../services/api";
+import { listarMaquinas, criarMaquina, atualizarMaquina, atualizarStatus, desativarMaquina, MODELOS, FABRICANTES, LOCALIZACOES, STATUS, rotuloEnum, rotuloStatus } from "../services/api";
 
 const vazio = { displayName: "", model: "HAAS_ST_10", manufacturer: "HAAS", serialNumber: "", location: "SETOR_USINAGEM" };
 export default function Configuracao() {
@@ -44,12 +44,7 @@ export default function Configuracao() {
     try { await desativarMaquina(selecionada.id); setMensagem("Máquina desativada."); navigate("/Configuracao"); await carregar(); }
     catch (e) { setErro(e.message); }
   }
-  async function importarCSV(e) {
-    const file = e.target.files?.[0]; if (!file) return;
-    try { const total = await importarTelemetriaCSV(file); setMensagem(`Arquivo processado. Registros retornados pela API: ${total ?? "não informado"}.`); await carregar(); }
-    catch (err) { setErro(err.message); }
-    finally { e.target.value = ""; }
-  }
+
   return <div className="ConfContainer">
     <Sidebar maquinaId={selecionada?.id || id} />
     <main className="ConfConteudo">
@@ -70,7 +65,6 @@ export default function Configuracao() {
         </div>
         <button type="submit" disabled={salvando}>{salvando ? "Salvando..." : novo ? "Cadastrar máquina" : "Salvar alterações"}</button>
       </form>}
-      <section className="ConfFormulario"><h2>Importar telemetria</h2><p>Envie o CSV de leituras de temperatura aceito pelo endpoint documentado no Swagger.</p><input type="file" accept=".csv,text/csv" onChange={importarCSV} /></section>
       <p style={{ marginTop: 20 }}>A API lista somente máquinas ativas. A reativação e a exclusão permanente existem no Swagger, mas não são exibidas aqui porque não há endpoint documentado para listar máquinas desativadas.</p>
     </main>
   </div>;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API_URL } from '../services/api';
 
 function TelaCadastro({ voltar }) {
   const [nome, setNome] = useState('');
@@ -23,7 +24,7 @@ function TelaCadastro({ voltar }) {
     setCarregando(true);
 
     try {
-      const res = await fetch('http://10.110.12.07:8083/usuarios', {
+      const res = await fetch(`${API_URL}/usuarios`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, senha })

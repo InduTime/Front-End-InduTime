@@ -1,714 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-/* =====================================================
-   RESET
-   ===================================================== */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body,
-#root {
-  width: 100%;
-  min-height: 100%;
-}
-
-body {
-  font-family: 'Inter', Arial, sans-serif;
-  background: #f4f6fa;
-  color: #18243d;
-  font-size: 14px;
-}
-
-/* =====================================================
-   CONTAINER PRINCIPAL
-   ===================================================== */
-
+/* Estilos exclusivos da página de histórico. O sistema visual compartilhado
+   fica em Redesign.css para evitar resets globais e conflitos entre telas. */
 .histContainer {
-  width: 100%;
   min-height: 100vh;
-  margin: 0;
-  padding: 0 24px 35px 175px;
-  background: #f4f6fa;
-  overflow-x: hidden;
-}
-
-/* =====================================================
-   SIDEBAR
-   ===================================================== */
-
-.histSideBar {
-  position: fixed;
-  z-index: 20;
-  inset: 0 auto 0 0;
-
-  width: 150px;
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-
-  padding: 28px 12px 16px;
-
-  background: #172642;
-  color: #fff;
-}
-
-.histSideBar a {
-  position: relative;
-
   width: 100%;
-  min-height: 40px;
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 12px;
-  margin-bottom: 5px;
-
-  border-radius: 6px;
-
-  color: #9da9bd;
-  text-decoration: none;
-
-  font-size: 12px;
-  font-weight: 500;
-
-  transition: background .2s ease, color .2s ease;
+  overflow-x: clip;
+  background: var(--it-bg, #f3f6fb);
 }
-
-.histSideBar a:hover {
-  background: #243756;
-  color: #fff;
+.histConteudo {
+  min-width: 0;
+  margin-left: 248px;
+  padding: 38px 42px 56px;
+  max-width: 1800px;
 }
-
-.histSideBar a:nth-child(2) {
-  background: #101e38;
-  color: #fff;
-}
-
-.histSideBar a:first-child::before {
-  content: "▦";
-  margin-right: 9px;
-  color: #8794aa;
-}
-
-.histSideBar a:nth-child(2)::before {
-  content: "◷";
-  margin-right: 9px;
-  color: #19c86b;
-  font-size: 15px;
-}
-
-.histSideBar a:nth-child(3)::before {
-  content: "⚙";
-  margin-right: 9px;
-  color: #8794aa;
-  font-size: 13px;
-}
-
-.histSideBar a:nth-child(4)::before {
-  content: "⚙";
-  margin-right: 9px;
-  color: #8794aa;
-  font-size: 13px;
-}
-
-/* =========================================================
-   USUÁRIO
-   ========================================================= */
-
-.histSideBar a:nth-child(5) {
-  margin-top: auto;
-  margin-bottom: 0;
-  padding-left: 25px;
-
-  color: #fff;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-
-.histSideBar p {
-  margin-left: 38px;
-  margin-top: 1px;
-  margin-bottom: 10px;
-
-  color: #8d99ad;
-
-  font-size: 10px;
-}
-
-.histSideBar a:last-child {
-  min-height: 34px;
-  margin-bottom: 0;
-
-  background: #10203c;
-  color: #ef5350;
-
-  font-size: 11px;
-}
-
-.histSideBar a:last-child:hover {
-  background: #203252;
-}
-
-.histSideBar a:last-child::before {
-  content: "↪";
-  margin-right: 7px;
-  color: #ef5350;
-  font-size: 14px;
-}
-
-/* =====================================================
-   CABEÇALHO
-   ===================================================== */
-
 .histCabecalho {
-  position: relative;
-
-  min-height: 112px;
-
-  padding: 28px 24px 20px;
-}
-
-.histCabecalho h1 {
-  margin-bottom: 5px;
-
-  color: #18243d;
-
-  font-size: 23px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.histCabecalho p {
-  color: #8290a7;
-
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.nome_da_maquina {
-  position: absolute;
-  top: 30px;
-  right: 104px;
-
-  color: #18243d;
-
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.histCabecalho input {
-  position: absolute;
-
-  top: 25px;
-  right: 24px;
-
-  width: 62px;
-  height: 30px;
-
-  padding: 5px 7px;
-
-  border: 1px solid #dfe5ee;
-  border-radius: 6px;
-
-  outline: none;
-  background: #fff;
-
-  color: #66738a;
-
-  font-family: inherit;
-  font-size: 11px;
-}
-
-/* =====================================================
-   ÁREA DOS CARDS
-   ===================================================== */
-
-.histCards {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-
-  width: 100%;
-  min-width: 0;
-  gap: 0;
-
-  padding: 0 0 30px;
-}
-
-.histCards > div {
-  position: relative;
-  min-width: 0;
-}
-
-/* =====================================================
-   CARD DE OPERAÇÃO INDIVIDUAL
-   ===================================================== */
-
-.histCards .cardFiltro {
-  width: 100%;
-  min-height: 46px;
-
-  display: grid;
-  grid-template-columns: 1.1fr 1fr 1fr 1fr 1fr;
-  align-items: center;
-  gap: 14px;
-
-  padding: 10px 14px;
-  margin-bottom: 14px;
-
-  background: #fff;
-  border: 1px solid #e1e7f0;
-  border-radius: 8px;
-}
-
-.histCards .cardFiltro p {
-  margin: 0;
-  color: #273650;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-/* Status */
-
-.histCards .cardFiltro .operandoStatus {
-  justify-self: start;
-  padding: 4px 9px;
-
-  border-radius: 5px;
-  background: #e7fbea;
-  color: #00a94b;
-
-  font-size: 10px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* =====================================================
-   TABELA DE HISTÓRICO
-   ===================================================== */
-
-.histCards .cardListaHist {
-  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
   min-height: 0;
-  margin: 0;
-  padding: 0;
-
-  overflow-x: auto;
-
-  background: #fff;
-  border: 1px solid #e1e7f0;
-  border-radius: 8px 8px 0 0;
+  margin: 0 0 25px;
+  padding: 0 0 24px;
+  border-bottom: 1px solid var(--it-line, #e5ebf3);
 }
-
-.cardListaHist table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  background: #fff;
+.histEyebrow { display: block; margin-bottom: 8px; color: #3975c8; font-size: 10px; font-weight: 800; letter-spacing: 1.2px; }
+.histCabecalho h1 { margin: 0 0 8px; color: var(--it-ink, #14233d); font-size: clamp(25px, 2.2vw, 32px); font-weight: 780; letter-spacing: -1px; }
+.histCabecalho p { color: var(--it-muted, #718096); font-size: 13px; line-height: 1.6; }
+.histMaquinaTag { display: grid; gap: 5px; min-width: 220px; padding: 13px 16px; border: 1px solid #dce7f5; border-radius: 12px; background: #f8fbff; }
+.histMaquinaTag span, .histMaquinaTag small { color: var(--it-muted, #718096); font-size: 10px; }
+.histMaquinaTag strong { color: var(--it-ink, #14233d); font-size: 14px; }
+.histIndicadores { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 20px; }
+.histIndicadores article { display: grid; gap: 8px; min-width: 0; padding: 18px 20px; border: 1px solid var(--it-line, #e5ebf3); border-radius: 14px; background: #fff; box-shadow: var(--it-shadow, 0 12px 32px rgba(20,37,65,.055)); }
+.histIndicadores article span { color: var(--it-muted, #718096); font-size: 11px; font-weight: 650; }
+.histIndicadores article strong { color: var(--it-ink, #14233d); font-size: clamp(18px, 2vw, 24px); line-height: 1.2; overflow-wrap: anywhere; }
+.histIndicadores article small { color: var(--it-subtle, #98a4b5); font-size: 10px; line-height: 1.45; }
+.histPainel { min-width: 0; margin-bottom: 18px; padding: 22px; border: 1px solid var(--it-line, #e5ebf3); border-radius: 15px; background: #fff; box-shadow: var(--it-shadow, 0 12px 32px rgba(20,37,65,.055)); }
+.histSecaoTitulo { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+.histSecaoTitulo h2 { margin: 0 0 5px; color: var(--it-ink, #14233d); font-size: 17px; font-weight: 750; }
+.histSecaoTitulo p { margin: 0; color: var(--it-muted, #718096); font-size: 11px; line-height: 1.5; }
+.histFiltrosForm { display: grid; grid-template-columns: repeat(3, minmax(140px, 1fr)) auto; align-items: end; gap: 13px; }
+.histFiltrosForm label { display: grid; gap: 7px; color: #586a83; font-size: 11px; font-weight: 700; }
+.histFiltrosForm input, .histFiltrosForm select { width: 100%; min-width: 0; height: 41px; padding: 0 11px; border: 1px solid #dce4ef; border-radius: 9px; outline: none; background: #fbfcfe; color: var(--it-ink, #14233d); font: inherit; font-size: 12px; }
+.histFiltrosForm input:focus, .histFiltrosForm select:focus { border-color: #80a9e7; box-shadow: 0 0 0 3px rgba(52,120,229,.1); }
+.histAcoesFiltro { display: flex; gap: 8px; }
+.histAcoesFiltro button, .histBotaoExportar { min-height: 41px; padding: 0 15px; border: 0; border-radius: 9px; background: #3478e5; color: #fff; font-size: 11px; font-weight: 750; cursor: pointer; white-space: nowrap; }
+.histAcoesFiltro button:disabled, .histBotaoExportar:disabled { opacity: .5; cursor: not-allowed; }
+.histAcoesFiltro .histBotaoSecundario { border: 1px solid #dce4ef; background: #fff; color: #52647c; }
+.histTituloTabela { margin-bottom: 14px; }
+.histTabelaScroll { width: 100%; overflow-x: auto; border: 1px solid #e8edf4; border-radius: 10px; }
+.histTabela { width: 100%; min-width: 900px; border-collapse: collapse; text-align: left; }
+.histTabela th { padding: 12px 13px; background: #f5f8fc; color: #63738a; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.histTabela td { padding: 13px; border-top: 1px solid #edf1f6; color: #34445c; font-size: 11px; white-space: nowrap; }
+.histTabela tbody tr { transition: background .15s ease; }
+.histTabela tbody tr:hover, .histTabela tbody tr.linhaSelecionada { background: #f2f7ff; }
+.histStatusPill { display: inline-flex; align-items: center; padding: 5px 9px; border-radius: 30px; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.histStatusPill.concluida { background: #e9f8f1; color: #16845b; }
+.histStatusPill.andamento { background: #fff5e5; color: #a56812; }
+.histLinkDetalhe { padding: 5px 8px; border: 0; border-radius: 6px; background: #edf4ff; color: #2865b8; font-size: 10px; font-weight: 800; cursor: pointer; }
+.histRodapeTabela { display: flex; justify-content: space-between; gap: 12px; padding-top: 13px; color: #8996a8; font-size: 10px; }
+.histEstadoVazio { display: grid; place-items: center; gap: 7px; min-height: 115px; padding: 24px; border: 1px dashed #d5dfec; border-radius: 10px; background: #fbfcfe; color: #738198; text-align: center; font-size: 12px; }
+.histEstadoVazio strong { color: #35465f; font-size: 13px; }
+.histEstadoVazio p { margin: 0; }
+.histDetalheResumo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 22px; }
+.histDetalheResumo > div { display: grid; gap: 6px; min-width: 0; padding: 13px 14px; border-radius: 9px; background: #f6f8fb; }
+.histDetalheResumo span { color: #78869a; font-size: 10px; font-weight: 700; }
+.histDetalheResumo strong { color: #273850; font-size: 12px; overflow-wrap: anywhere; }
+.histLeiturasCabecalho { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 11px; }
+.histLeiturasCabecalho h3 { color: #273850; font-size: 13px; }
+.histLeiturasCabecalho span { color: #8996a8; font-size: 10px; }
+.histTabelaLeituras { min-width: 760px; }
+.histTabelaLeituras td strong { color: #263b59; }
+.histEventId { max-width: 230px; overflow: hidden; text-overflow: ellipsis; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.histSemLeituras { min-height: 75px; }
+.histNotaTecnica { margin: 4px 2px 0; color: #8794a7; font-size: 10px; line-height: 1.7; }
+.histNotaTecnica code { padding: 2px 5px; border-radius: 5px; background: #eaf0f7; color: #415672; }
+.histErro { margin: 12px 0; padding: 12px 14px; border: 1px solid #f4c7cc; border-radius: 9px; background: #fff0f1; color: #a63240; font-size: 12px; }
+@media (max-width: 1200px) {
+  .histConteudo { padding-right: 26px; padding-left: 26px; }
+  .histIndicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .histFiltrosForm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-
-.cardListaHist thead {
-  background: #f1f4f9;
+@media (max-width: 760px) {
+  .histConteudo { margin-left: 0; padding: 24px 16px 35px; }
+  .histCabecalho { flex-direction: column; }
+  .histMaquinaTag { width: 100%; }
+  .histIndicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .histIndicadores article { padding: 14px; }
+  .histPainel { padding: 16px; }
+  .histFiltrosForm { grid-template-columns: 1fr; }
+  .histAcoesFiltro { width: 100%; }
+  .histAcoesFiltro button { flex: 1; }
+  .histDetalheResumo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .histRodapeTabela { flex-direction: column; }
 }
-
-.cardListaHist th {
-  padding: 14px 14px;
-  color: #586983;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.cardListaHist td {
-  padding: 14px;
-  color: #263650;
-  font-size: 12px;
-  line-height: 1.5;
-  border-top: 1px solid #e7ecf3;
-  white-space: nowrap;
-}
-
-.cardListaHist tbody tr {
-  height: 43px;
-}
-
-.cardListaHist tbody tr:hover {
-  background: #f8faff;
-}
-
-/* Status da tabela */
-
-.statusConcluida {
-  display: inline-block;
-  padding: 4px 9px;
-
-  border-radius: 5px;
-  background: #e7fbea;
-  color: #00a94b;
-
-  font-size: 10px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.statusAndamento {
-  display: inline-block;
-  padding: 4px 9px;
-
-  border-radius: 5px;
-  background: #fff2df;
-  color: #c87800;
-
-  font-size: 10px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* =====================================================
-   PAGINAÇÃO
-   Fica diretamente abaixo da tabela
-   ===================================================== */
-
-.histCards .cardPassarPaginas {
-  width: 100%;
-  min-height: 48px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: nowrap;
-  gap: 7px;
-
-  margin: 0;
-  padding: 8px 14px;
-
-  background: #f4f6fa;
-  border: 1px solid #e1e7f0;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-}
-
-/* Contador à esquerda */
-
-.cardPassarPaginas span:first-child {
-  margin-right: auto;
-  color: #718097;
-  font-size: 11px;
-  white-space: nowrap;
-}
-
-/* Botões */
-
-.cardPassarPaginas button {
-  min-width: 30px;
-  height: 30px;
-  padding: 0 9px;
-
-  border: 1px solid #dfe5ee;
-  border-radius: 5px;
-
-  background: #fff;
-  color: #273650;
-
-  font-family: inherit;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.cardPassarPaginas button:hover {
-  background: #e9eef7;
-}
-
-.cardPassarPaginas button.paginaAtiva {
-  background: #1b2b4d;
-  color: #fff;
-  border-color: #1b2b4d;
-}
-
-/* =====================================================
-   RESUMO INFERIOR
-   MESMA LARGURA DA TABELA E DA PAGINAÇÃO
-   ===================================================== */
-
-.histCards .cardResumoHist {
-  width: 100%;
-  min-height: 58px;
-
-  display: grid;
-  grid-template-columns: 1fr 1.4fr 1.25fr;
-  align-items: center;
-  gap: 0;
-
-  margin-top: 14px;
-  padding: 10px 18px;
-
-  background: #1b2b4d;
-  border: none;
-  border-radius: 8px;
-  box-shadow: none;
-}
-
-/* Textos dos indicadores */
-
-.histCards .cardResumoHist p,
-.histCards .cardResumoHist p:first-child,
-.histCards .cardResumoHist p:nth-child(2),
-.histCards .cardResumoHist p:nth-child(3) {
-  margin: 0;
-  padding: 5px 16px;
-
-  color: #e8edf7;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.5;
-  white-space: normal;
-}
-
-.histCards .cardResumoHist p:first-child {
-  padding-left: 0;
-}
-
-/* Separadores verticais */
-
-.histCards .cardResumoHist p + p {
-  border-left: 1px solid #394967;
-}
-
-/* Números verdes */
-
-.histCards .cardResumoHist strong {
-  color: #16d66c;
-  font-weight: 700;
-}
-
-/* Ícones */
-
-.resumoIcone {
-  display: inline-block;
-  margin-right: 7px;
-  color: #16d66c;
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-/* =====================================================
-   BOTÃO RELATÓRIOS
-   ===================================================== */
-
-.histContainer .histBotaoRelatorios {
-  position: fixed;
-  z-index: 30;
-  right: 25px;
-  bottom: 20px;
-
-  min-width: 110px;
-  height: 36px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0 20px;
-  border: none;
-  border-radius: 20px;
-
-  background: #1b2b4d;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.histContainer .histBotaoRelatorios:hover {
-  background: #263b60;
-}
-
-/* =====================================================
-   TABLET
-   ===================================================== */
-
-@media (max-width: 1100px) {
-  .histContainer {
-    padding-left: 175px;
-    padding-right: 20px;
-  }
-
-  .histCabecalho h1 {
-    font-size: 22px;
-  }
-
-  .histCards .cardResumoHist {
-    grid-template-columns: 1fr 1.2fr 1.1fr;
-  }
-
-  .histCards .cardResumoHist p,
-  .histCards .cardResumoHist p:first-child,
-  .histCards .cardResumoHist p:nth-child(2),
-  .histCards .cardResumoHist p:nth-child(3) {
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 11px;
-  }
-}
-
-/* =====================================================
-   MOBILE
-   ===================================================== */
-
-@media (max-width: 700px) {
-  .histSideBar {
-    display: none;
-  }
-
-  .histContainer {
-    padding: 0 14px 25px;
-  }
-
-  .histCabecalho {
-    min-height: 120px;
-    padding: 20px 4px 12px;
-  }
-
-  .histCabecalho h1 {
-    font-size: 20px;
-  }
-
-  .histCabecalho p {
-    font-size: 11px;
-  }
-
-  .histNome_da_maquina {
-    position: static;
-    display: block;
-    margin-top: 8px;
-  }
-
-  .histCabecalho input {
-    top: auto;
-    right: 4px;
-    bottom: 12px;
-    width: 120px;
-  }
-
-  .histCards .cardFiltro {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .histCards .cardPassarPaginas {
-    flex-wrap: wrap;
-    min-height: 48px;
-  }
-
-  .cardPassarPaginas span:first-child {
-    width: 100%;
-    margin-bottom: 4px;
-    white-space: normal;
-  }
-
-  .histCards .cardResumoHist {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 14px;
-  }
-
-  .histCards .cardResumoHist p,
-  .histCards .cardResumoHist p:first-child,
-  .histCards .cardResumoHist p:nth-child(2),
-  .histCards .cardResumoHist p:nth-child(3) {
-    padding: 7px 0;
-    font-size: 12px;
-    border-left: none;
-    white-space: normal;
-  }
-
-  .histCards .cardResumoHist p + p {
-    border-top: 1px solid #394967;
-  }
-}
-
-/* =====================================================
-   CELULARES PEQUENOS
-   ===================================================== */
-
-@media (max-width: 450px) {
-  .histCabecalho h1 {
-    font-size: 18px;
-  }
-
-  .histCards .cardListaHist {
-    overflow-x: auto;
-  }
-
-  .cardListaHist th,
-  .cardListaHist td {
-    padding: 11px 10px;
-    font-size: 10px;
-  }
-}
-
-/* =====================================================
-   BOTÃO RELATÓRIO
-   Alinhado no canto inferior direito
-   ===================================================== */
-
-.histContainer .btnRelatorio {
-  position: fixed;
-  z-index: 30;
-  right: 25px;
-  bottom: 20px;
-
-  min-height: 42px;
-  padding: 0 20px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 8px;
-
-  background: #1b2b4d;
-  color: #fff;
-
-  font-family: 'Inter', Arial, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(27, 43, 77, 0.15);
-
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.histContainer .btnRelatorio:hover {
-  background: #263b60;
-  transform: translateY(-2px);
-}
-
-.histContainer .btnRelatorio:active {
-  transform: translateY(0);
-}
-
-/* Ajuste para dispositivos móveis */
-@media (max-width: 700px) {
-  .histContainer .btnRelatorio {
-    right: 14px;
-    bottom: 14px;
-
-    max-width: calc(100% - 28px);
-    min-height: 40px;
-    padding: 0 14px;
-
-    font-size: 11px;
-  }
+@media (max-width: 420px) {
+  .histIndicadores { grid-template-columns: 1fr; }
+  .histDetalheResumo { grid-template-columns: 1fr; }
+  .histSecaoTitulo { align-items: flex-start; flex-direction: column; }
 }

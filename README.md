@@ -1,61 +1,66 @@
-# InduTime — Frontend
+# InduTime — Frontend React
 
-## Iniciar o projeto
+Frontend do sistema de monitoramento de máquinas CNC.
 
-1. Instale o Node.js e o npm.
-2. Na pasta do projeto, instale as dependências:
+## Requisitos
 
-   ```bash
-   npm ci
-   ```
+- Node.js e npm
+- Backend InduTime disponível na rede
 
-3. Copie o arquivo de configuração da API:
+## Configurar a API
 
-   ```bash
-   cp .env.example .env
-   ```
+Copie o arquivo de exemplo:
 
-4. Ajuste `REACT_APP_API_URL` no `.env`:
-   - `http://localhost:8080` se o backend estiver no mesmo computador;
-   - `http://10.110.12.51:8080` se o backend estiver disponível nesse endereço da rede, conforme o Swagger informado.
-5. Inicie o frontend:
+```bash
+cp .env.example .env
+```
 
-   ```bash
-   npm start
-   ```
+Edite `REACT_APP_API_URL` no `.env`:
+
+```env
+REACT_APP_API_URL=http://localhost:8083
+```
+
+Use `localhost` quando o backend estiver no mesmo computador do navegador. Se o backend estiver em outro computador, substitua `localhost` pelo IP desse servidor, mantendo a porta `8083`.
+
+A mesma variável é utilizada pelas chamadas de máquinas, operações e usuários (login, cadastro e recuperação de senha). Reinicie o servidor React após alterar o `.env`.
+
+## Instalar e executar
+
+```bash
+npm ci
+npm start
+```
 
 A aplicação ficará disponível em `http://localhost:3000`.
 
-## Dados de operação
-
-- `running` determina se existe uma operação em andamento.
-- `operatingTimeSeconds` é usado como duração da operação atual.
-- O contador visual avança localmente a cada segundo enquanto `running` for `true` e é sincronizado com a API a cada 30 segundos.
-- `operationStartedAt` mostra o início da operação atual.
-- `lastTelemetryAt` mostra a data/hora da última telemetria recebida.
-- `temperature` mostra a temperatura atual quando fornecida.
-- `totalOperatingSeconds` não é usado nesta versão, pois não é necessário para exibir a operação atual.
-
-**Limite do histórico:** `GET /v1/cncmachine/{id}` retorna dados da máquina e da operação atual, mas não uma coleção de eventos anteriores de ligar/desligar. A página Histórico não inventa sessões passadas; ela mostra a sessão atual. Para uma lista cronológica completa, o backend precisa fornecer uma rota de eventos/histórico.
-
-## Estrutura principal de pastas
-
-```text
-src/
-├── component/   # Componentes compartilhados, sidebar, login e cadastro
-├── css/         # Estilos das telas
-├── data/        # Dados auxiliares existentes
-├── services/    # Comunicação com a API
-├── tela/        # Dashboard, Histórico, Máquinas e Configurações
-├── utils/       # Formatação de duração e datas
-├── App.js       # Rotas da aplicação
-└── index.js     # Inicialização do React
-```
-
 ## Rotas principais
 
-- `/` — login
+- `/` — login, cadastro e recuperação de senha
 - `/ListaMaquinas` — lista de máquinas
-- `/maquinas/:id/DashBoard` — dashboard da máquina
-- `/Historico/:id` — histórico/sessão atual da máquina
-- `/Configuracao` e `/Configuracao/:id` — configurações
+- `/DashBoard/:id` — dashboard da máquina
+- `/Historico/:id` — histórico de operações e leituras de temperatura
+- `/Configuracao` — cadastro e gerenciamento de máquinas
+- `/Configuracao/:id` — configuração da máquina selecionada
+
+## Integração do histórico
+
+- `GET /v1/operations` — lista operações; usa `raspberryMachineId` para filtrar a máquina, além de filtros de data e status.
+- `GET /v1/operations/{operationId}` — detalhe da operação; usa o `id` interno da operação e retorna `temperatureReadings`.
+
+A listagem não possui paginação no backend. As leituras são exibidas na ordem cronológica fornecida pela API.
+
+## Dashboard e dados de operação
+
+- `running` informa se existe uma operação em andamento.
+- `totalOperatingSeconds` representa a duração da sessão de operação atual.
+- `operatingTimeSeconds` representa o tempo acumulado de operação da máquina desde sua criação.
+- `operationStartedAt` informa o início da operação atual.
+- `temperature` informa a última temperatura disponibilizada pela API.
+- `status` (`ONLINE`, `OFFLINE`, `MANUTENCAO`) representa o estado cadastral/conectividade da máquina e não substitui `running`.
+
+## Observações
+
+- Login, cadastro e recuperação de senha usam a mesma base `REACT_APP_API_URL`.
+- A tela Configurações mantém o gerenciamento cadastral das máquinas; a opção de importar telemetria CSV foi removida da interface.
+- O frontend não deve inventar leituras, operações ou estados que não tenham sido retornados pelo backend.

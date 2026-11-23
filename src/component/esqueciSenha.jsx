@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API_URL } from '../services/api';
 
 function EsqueciSenha({ voltar }) {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ function EsqueciSenha({ voltar }) {
     setCarregando(true);
 
     try {
-      const res = await fetch(`http://10.110.12.07:8083/usuarios/email/${encodeURIComponent(email)}/senha`, {
+      const res = await fetch(`${API_URL}/usuarios/email/${encodeURIComponent(email)}/senha`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         // A documentação cortou antes de mostrar o formato, mas normalmente o PATCH recebe um JSON ou um texto simples.

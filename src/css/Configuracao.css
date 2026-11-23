@@ -2,30 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* =========================================================
-   RESET
-   ========================================================= */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body,
-#root {
-  width: 100%;
-  min-height: 100%;
-}
-
-body {
-  font-family: 'Inter', Arial, sans-serif;
-  background: #f4f6fa;
-  color: #18243d;
-  font-size: 14px;
-}
-
-/* =========================================================
    CONTAINER PRINCIPAL
    ========================================================= */
 

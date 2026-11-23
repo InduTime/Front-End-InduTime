@@ -1,5 +1,5 @@
 // URL publicada no Swagger. Pode ser sobrescrita em .env por REACT_APP_API_URL.
-export const API_URL = (process.env.REACT_APP_API_URL || "http://10.110.12.07:8083").replace(/\/$/, "");
+export const API_URL = (process.env.REACT_APP_API_URL || "http://10.110.12.7:8083").replace(/\/$/, "");
 
 async function request(path, options = {}) {
   let response;
@@ -38,6 +38,22 @@ const json = (method, body) => ({
 
 export const listarMaquinas = () => request("/v1/cncmachine");
 export const buscarMaquina = (id) => request(`/v1/cncmachine/${id}`);
+
+// Histórico de operações CNC. A listagem filtra pelo ID externo da Raspberry.
+export const buscarOperacoes = (filtros = {}) => {
+  const parametros = new URLSearchParams();
+  Object.entries(filtros).forEach(([chave, valor]) => {
+    if (valor !== undefined && valor !== null && String(valor).trim() !== "") {
+      parametros.set(chave, String(valor));
+    }
+  });
+  const query = parametros.toString();
+  return request(`/v1/operations${query ? `?${query}` : ""}`);
+};
+
+// O detalhe recebe o ID interno da operação (campo `id` da listagem).
+export const buscarDetalheOperacao = (operationId) =>
+  request(`/v1/operations/${encodeURIComponent(operationId)}`);
 export const pesquisarMaquinas = (filters = {}) => {
   const query = new URLSearchParams(
     Object.entries(filters).filter(([, value]) => value)
@@ -78,6 +94,8 @@ export const opcoesMaquina = {
 export const api = {
   listarMaquinas,
   buscarMaquina,
+  buscarOperacoes,
+  buscarDetalheOperacao,
   pesquisarMaquinas,
   criarMaquina,
   atualizarMaquina,

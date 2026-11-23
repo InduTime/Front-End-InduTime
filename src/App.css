@@ -121,3 +121,266 @@
 .itSidebarLogout:hover {
   background: rgba(255, 100, 100, 0.12);
 }
+
+/* =========================================================
+   AUTENTICAÇÃO — LOGIN / CADASTRO / RECUPERAÇÃO
+   ========================================================= */
+.app {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(420px, .92fr);
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #f4f7fb;
+  color: #17263f;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.lado-esquerdo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(28px, 4vw, 58px);
+  overflow: hidden;
+  background: linear-gradient(145deg, #1b3558 0%, #10233e 75%, #0c1c32 100%);
+  color: #fff;
+}
+
+.lado-esquerdo::after {
+  position: absolute;
+  right: -140px;
+  bottom: -210px;
+  width: 430px;
+  height: 430px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.logo {
+  position: relative;
+  z-index: 1;
+  margin-bottom: clamp(24px, 4vh, 42px);
+  color: #fff;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.8px;
+}
+
+.img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 650px;
+  max-height: 38vh;
+  margin: 0 auto clamp(24px, 4vh, 38px);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  box-shadow: 0 22px 48px rgba(0,0,0,.22);
+}
+
+.img img {
+  display: block;
+  width: 100%;
+  height: clamp(210px, 34vh, 360px);
+  object-fit: cover;
+}
+
+.texto-esquerdo {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.texto-esquerdo h2 {
+  max-width: 590px;
+  margin: 0 0 13px;
+  color: #fff;
+  font-size: clamp(24px, 2.6vw, 36px);
+  font-weight: 750;
+  line-height: 1.17;
+  letter-spacing: -1.1px;
+}
+
+.texto-esquerdo p {
+  max-width: 560px;
+  margin: 0;
+  color: #c1cde0;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.rodape-esquerdo {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 28px;
+  color: #8397b5;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+}
+
+.lado-direito {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 46px clamp(24px, 5vw, 76px) 22px;
+  background: #fff;
+}
+
+.formulario {
+  width: 100%;
+  max-width: 420px;
+  margin: auto 0;
+}
+
+.authConteudo { width: 100%; }
+.authEyebrow {
+  display: inline-block;
+  margin-bottom: 13px;
+  color: #3478e5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+.authConteudo h1, .formulario h1 {
+  margin: 0 0 9px;
+  color: #17263f;
+  font-size: clamp(27px, 3vw, 34px);
+  font-weight: 780;
+  letter-spacing: -1px;
+}
+.authDescricao {
+  margin: 0 0 30px;
+  color: #7b899d;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.authCampo {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.authCampo label {
+  color: #34445d;
+  font-size: 12px;
+  font-weight: 700;
+}
+.authCampo input, .formulario input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #dce4ef;
+  border-radius: 10px;
+  outline: none;
+  background: #fbfcfe;
+  color: #17263f;
+  font: inherit;
+  font-size: 13px;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.authCampo input::placeholder, .formulario input::placeholder { color: #a0aaba; }
+.authCampo input:focus, .formulario input:focus {
+  border-color: #76a4eb;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(52,120,229,.11);
+}
+.authBotaoPrimario, .formulario .authBotaoPrimario {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 6px;
+  border: 0;
+  border-radius: 10px;
+  background: #3478e5;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(52,120,229,.2);
+  transition: background .18s ease, transform .18s ease;
+}
+.authBotaoPrimario:hover { background: #2868cd; transform: translateY(-1px); }
+.authBotaoPrimario:disabled, .authBotaoTexto:disabled, .authBotaoCadastro:disabled { opacity: .6; cursor: wait; }
+.authBotaoTexto, .authBotaoCadastro {
+  border: 0;
+  background: transparent;
+  color: #3478e5;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.authBotaoTexto { display: block; margin: 15px auto 0; padding: 7px 10px; }
+.authCadastro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid #edf1f6;
+  color: #7b899d;
+  font-size: 12px;
+}
+.authBotaoCadastro { padding: 6px; }
+.authErro {
+  margin: 0 0 13px;
+  padding: 10px 12px;
+  border: 1px solid #f1c7cc;
+  border-radius: 8px;
+  background: #fff3f4;
+  color: #ad3441;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.copyright {
+  margin-top: 26px;
+  color: #a0aaba;
+  font-size: 10px;
+  text-align: center;
+}
+
+/* Formulários de cadastro e recuperação usam o mesmo padrão visual. */
+.formulario > div:not(.authConteudo) h1 { margin-bottom: 24px; }
+.formulario > div:not(.authConteudo) input { display: block; margin: 0 0 14px; }
+.formulario > div:not(.authConteudo) button {
+  min-height: 43px;
+  margin: 8px 8px 0 0;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #3478e5;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.formulario > div:not(.authConteudo) button:hover { background: #2868cd; }
+
+@media (max-width: 900px) {
+  .app { grid-template-columns: minmax(0, .9fr) minmax(380px, 1.1fr); }
+  .lado-esquerdo { padding: 30px; }
+  .lado-direito { padding: 36px 28px 20px; }
+}
+@media (max-width: 700px) {
+  .app { display: flex; flex-direction: column; overflow: auto; }
+  .lado-esquerdo { min-height: auto; padding: 22px 22px 26px; }
+  .logo { margin-bottom: 0; }
+  .img { display: none; }
+  .texto-esquerdo { margin-top: 25px; }
+  .texto-esquerdo h2 { font-size: 23px; }
+  .texto-esquerdo p { font-size: 12px; }
+  .rodape-esquerdo { display: none; }
+  .lado-direito { flex: 1; padding: 36px 24px 18px; }
+  .formulario { max-width: 460px; }
+  .copyright { margin-top: 32px; }
+}
