@@ -1,334 +1,123 @@
-* {
-  margin: 0;
-  padding: 0;
+
+/* MENU LATERAL */
+.itSidebar {
+  width: 248px;
+  min-width: 248px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 24px 17px;
+  background: linear-gradient(180deg, #192e4c 0%, #10233d 100%);
+}
+
+/* LOGO */
+.itSidebarBrand {
+  display: block;
+  margin: 0 12px 35px;
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* LINKS DO MENU */
+.itSidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.itSidebar nav a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border-radius: 9px;
+  color: #b8c5d8;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.itSidebar nav a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.itSidebar nav a.active {
+  background: #29476c;
+  color: #ffffff;
+}
+
+/* ÁREA INFERIOR */
+.itSidebarBottom {
+  margin-top: auto;
+  width: 100%;
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #ffffff;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-.app {
-  width: 100%;
-  min-height: 100vh;
+/* USUÁRIO CONECTADO */
+.itSidebarUser {
   display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 20px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-
-/* =========================
-   LADO ESQUERDO
-========================= */
-
-.lado-esquerdo {
-  width: 50%;
-  min-height: 100vh;
-  background: #1d2e50;
-  color: white;
-  padding: 32px;
-  position: relative;
+.itSidebarAvatar {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.logo {
-  position: absolute;
-  top: 32px;
-  left: 32px;
-
-  font-size: 15px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-
-  background: white;
-  color: #1d2e50;
-
-  padding: 6px 10px;
-  border-radius: 3px;
-}
-
-/* Imagem do torno CNC */
-
-.img {
-  width: 80%;
-  height: 500px;
-
-  margin-bottom: 10px;
-
-  border: 1px solid #0c59a7;
-  border-radius: 13px;
-
-  overflow: hidden;
-
-  background: #07152d;
-}
-
-.img img {
-  width: 100%;
-  height: 100%;
-
-  display: block;
-
-  object-fit: cover;
-}
-
-
-/* Painel tecnológico */
-
-.painel-tecnologia {
-  width: 90%;
-  height: 225px;
-
-  border: 1px dashed #168cff;
-  border-radius: 3px;
-
-  background: rgba(7, 21, 45, 0.45);
-
-  position: relative;
-  margin-bottom: 18px;
-}
-
-.informacao span {
-  font-size: 7px;
-
-  color: #7fc4ff;
-
-  background: rgba(20, 70, 110, 0.4);
-
-  padding: 4px 6px;
-}
-
-
-/* Texto */
-
-.texto-esquerdo {
-  width: 90%;
-}
-
-.texto-esquerdo h2 {
-  font-size: 29px;
-  line-height: 1.15;
-
-  margin-bottom: 10px;
-}
-
-.texto-esquerdo p {
-  font-size: 10px;
-  line-height: 1.5;
-
-  color: #9caac0;
-
-  max-width: 420px;
-}
-
-
-/* Rodapé esquerdo */
-
-.rodape-esquerdo {
-  position: absolute;
-
-  bottom: 28px;
-  left: 32px;
-
-  font-size: 7px;
-  color: #7290b9;
-}
-
-
-/* =========================
-   LADO DIREITO
-========================= */
-
-.lado-direito {
-  width: 50%;
-  min-height: 100vh;
-
-  background: #ffffff;
-
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  position: relative;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  background: #31547e;
+  color: #ffffff;
+  font-weight: 700;
 }
 
-
-/* Formulário */
-
-.formulario {
-  width: 380px;
-  max-width: 85%;
+.itSidebarUser span:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.formulario h1 {
-  font-size: 22px;
-  color: #202b42;
-
-  margin-bottom: 30px;
+.itSidebarUser strong {
+  color: #ffffff;
+  font-size: 13px;
 }
 
-
-/* Labels */
-
-.formulario label {
-  display: block;
-
+.itSidebarUser small {
+  margin-top: 4px;
+  color: #9eafc5;
   font-size: 10px;
-  font-weight: bold;
-
-  color: #28344a;
-
-  margin-bottom: 6px;
 }
 
-
-/* Inputs */
-
-.formulario input {
+/* BOTÃO SAIR */
+.itSidebarLogout {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
   width: 100%;
-  height: 36px;
-
-  border: 1px solid #dce2eb;
-  border-radius: 5px;
-
-  padding: 0 12px;
-
-  font-size: 11px;
-
-  outline: none;
-
-  margin-bottom: 18px;
-}
-
-.formulario input:focus {
-  border-color: #1d2e50;
-}
-
-.formulario input::placeholder {
-  color: #aeb7c5;
-}
-
-
-/* Botões */
-
-.formulario button {
-  width: 100%;
-  height: 36px;
-
+  padding: 12px 14px;
   border: none;
-  border-radius: 4px;
-
-  background: #1d2e50;
-  color: white;
-
-  font-size: 10px;
-  font-weight: bold;
-
+  border-radius: 9px;
+  background: transparent;
+  color: #ff8585;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
-
-  margin-bottom: 8px;
-
   transition: 0.2s;
 }
 
-.formulario button:hover {
-  background: #263d68;
-}
-
-/* Botões */
-
-.formulario button {
-  width: 100%;
-  height: 36px;
-
-  border: none;
-  border-radius: 4px;
-
-  background: #1d2e50;
-  color: white;
-
-  font-size: 10px;
-  font-weight: bold;
-
-  cursor: pointer;
-
-  margin-bottom: 8px;
-
-  transition: 0.2s;
-}
-
-.formulario button:hover {
-  background: #263d68;
-}
-
-
-/* Botão de voltar */
-
-.formulario button:last-child {
-  margin-bottom: 0;
-}
-
-
-/* Parágrafo */
-
-.formulario p {
-  font-size: 10px;
-  color: #7d8796;
-
-  margin: 10px 0;
-}
-
-
-/* Copyright */
-
-.copyright {
-  position: absolute;
-
-  bottom: 45px;
-
-  font-size: 8px;
-
-  color: #aeb7c5;
-}
-
-
-/* =========================
-   RESPONSIVO
-========================= */
-
-@media (max-width: 800px) {
-
-  .app {
-    flex-direction: column;
-  }
-
-  .lado-esquerdo {
-    width: 100%;
-    min-height: 350px;
-  }
-
-  .lado-direito {
-    width: 100%;
-    min-height: 500px;
-    padding: 40px 0;
-  }
-
-  .painel-tecnologia {
-    width: 100%;
-  }
-
-  .texto-esquerdo {
-    width: 100%;
-  }
-
-  .copyright {
-    position: static;
-    margin-top: 30px;
-  }
+.itSidebarLogout:hover {
+  background: rgba(255, 100, 100, 0.12);
 }

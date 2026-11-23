@@ -27,7 +27,7 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
 
     try {
       const res = await fetch(
-        `http://10.110.12.60:8088/usuarios/email/${encodeURIComponent(email)}`
+        `http://10.110.12.07:8083/usuarios/email/${encodeURIComponent(email)}`
       );
 
       if (!res.ok) {

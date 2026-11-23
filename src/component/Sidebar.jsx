@@ -36,23 +36,33 @@ export default function Sidebar({ maquinaId = null, paginaMaquinas = false }) {
         InduTime
       </Link>
 
-      <nav>
-        <NavLink to={destinoDashboard}>
-          Dashboard
-        </NavLink>
+     
+<nav>
+  {paginaMaquinas ? (
+    <NavLink to="/ListaMaquinas">
+      Máquinas
+    </NavLink>
+  ) : (
+    <>
+      <NavLink to={destinoDashboard}>
+        Dashboard
+      </NavLink>
 
-        <NavLink to={destinoHistorico}>
-          Histórico
-        </NavLink>
+      <NavLink to={destinoHistorico}>
+        Histórico
+      </NavLink>
 
-        <NavLink to={destinoMaquinas}>
-          Máquinas
-        </NavLink>
+      <NavLink to={destinoMaquinas}>
+        Máquinas
+      </NavLink>
 
-        <NavLink to={destinoConfiguracoes}>
-          Configurações
-        </NavLink>
-      </nav>
+      <NavLink to={destinoConfiguracoes}>
+        Configurações
+      </NavLink>
+    </>
+  )}
+</nav>
+
 
       <div className="itSidebarBottom">
         <div className="itSidebarUser">

@@ -23,7 +23,7 @@ function TelaCadastro({ voltar }) {
     setCarregando(true);
 
     try {
-      const res = await fetch('http://10.110.12.60:8088/usuarios', {
+      const res = await fetch('http://10.110.12.07:8083/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, senha })
