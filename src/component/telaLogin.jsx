@@ -3,6 +3,24 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../services/api';
 
+async function lerResposta(res) {
+  let corpo;
+  try {
+    corpo = await res.text();
+  } catch {
+    return null;
+  }
+
+  if (!corpo.trim()) return null;
+
+  try {
+    const dados = JSON.parse(corpo);
+    return typeof dados === 'string' ? { message: dados } : dados;
+  } catch {
+    return { message: corpo.trim() };
+  }
+}
+
 function TelaLogin({ cadastrar, esqueciSenha }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -26,41 +44,49 @@ function TelaLogin({ cadastrar, esqueciSenha }) {
 
     setCarregando(true);
 
-try {
-  // Busca todos os usuários cadastrados
-  const res = await fetch(`${API_URL}/usuarios`);
+    try {
+      let res;
+      try {
+        res = await fetch(`${API_URL}/usuarios/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email.trim(), senha })
+        });
+      } catch (error) {
+        console.error('Erro no login:', error);
+        setMensagemErro('Erro de conexão. A API está rodando?');
+        return;
+      }
 
-  if (!res.ok) {
-    throw new Error('Não foi possível consultar os usuários.');
+      const usuario = await lerResposta(res);
+
+      if (res.status !== 200) {
+        setMensagemErro(
+          typeof usuario?.message === 'string' && usuario.message.trim()
+            ? usuario.message
+            : 'E-mail ou senha incorretos.'
+        );
+        return;
+      }
+
+      if (!usuario || typeof usuario !== 'object' || Array.isArray(usuario)) {
+        setMensagemErro('Não foi possível validar os dados retornados pelo servidor.');
+        return;
+      }
+
+      try {
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+      } catch (error) {
+        console.error('Erro ao salvar usuário:', error);
+        setMensagemErro('Não foi possível salvar os dados do usuário.');
+        return;
+      }
+
+      navigate('/DashBoard');
+    } finally {
+      setCarregando(false);
+    }
   }
-
-  const usuarios = await res.json();
-
-  // Procura o usuário pelo e-mail
-  const usuario = usuarios.find(
-    (u) =>
-      u.email?.trim().toLowerCase() === email.trim().toLowerCase()
-  );
-
-  if (!usuario) {
-    setMensagemErro('E-mail ou senha incorretos.');
-    return;
-  }
-
-  // Salva os dados do usuário no navegador
-  localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-
-  navigate('/DashBoard');
-
-} catch (error) {
-  console.error('Erro no login:', error);
-  setMensagemErro('Erro de conexão. A API está rodando?');
-
-} finally {
-  setCarregando(false);
-}
-  }
-
   function handleKeyDown(e) {
     if (e.key === 'Enter') entrar();
   }
