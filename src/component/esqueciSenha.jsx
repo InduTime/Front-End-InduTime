@@ -1,11 +1,43 @@
 import { useState } from 'react';
 import { API_URL } from '../services/api';
 
+function extrairMensagemErro(payload) {
+  if (typeof payload === 'string') return payload.trim();
+  if (Array.isArray(payload)) {
+    return payload.map(extrairMensagemErro).filter(Boolean).join('; ');
+  }
+  if (!payload || typeof payload !== 'object') return '';
+
+  for (const campo of ['message', 'mensagem', 'detail', 'description', 'defaultMessage']) {
+    if (typeof payload[campo] === 'string' && payload[campo].trim()) {
+      return payload[campo].trim();
+    }
+  }
+
+  for (const campo of ['errors', 'erros', 'error']) {
+    const mensagem = extrairMensagemErro(payload[campo]);
+    if (mensagem) return mensagem;
+  }
+
+  return '';
+}
+
+async function obterMensagemErro(res, fallback) {
+  const corpo = await res.text().catch(() => '');
+  if (!corpo.trim()) return fallback;
+
+  try {
+    return extrairMensagemErro(JSON.parse(corpo)) || corpo.trim();
+  } catch {
+    return corpo.trim();
+  }
+}
+
 function EsqueciSenha({ voltar }) {
   const [email, setEmail] = useState('');
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [mensagem, setMensagem] = useState({ texto: '', tipo: '' }); // tipo: 'erro' ou 'sucesso'
+  const [mensagem, setMensagem] = useState({ texto: '', tipo: '' });
   const [carregando, setCarregando] = useState(false);
 
   async function alterarSenha() {
@@ -32,22 +64,27 @@ function EsqueciSenha({ voltar }) {
       const res = await fetch(`${API_URL}/usuarios/email/${encodeURIComponent(email)}/senha`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        // A documentação cortou antes de mostrar o formato, mas normalmente o PATCH recebe um JSON ou um texto simples.
-        // Se a API falhar aqui, verifique no Swagger se a senha vai no body como JSON, como string plana, ou via query params (?senha=...).
-        body: JSON.stringify({ senha: novaSenha }) 
+        body: JSON.stringify({ novaSenha })
       });
 
       if (!res.ok) {
-        const erro = await res.json().catch(() => ({ message: 'Erro ao alterar senha.' }));
-        setMensagem({ texto: erro.message || 'Erro ao alterar senha.', tipo: 'erro' });
-        setCarregando(false);
+        const fallback = res.status === 404
+          ? 'Usuário não encontrado.'
+          : res.status === 400
+            ? 'Os dados informados são inválidos.'
+            : 'Erro ao alterar senha.';
+        const texto = await obterMensagemErro(res, fallback);
+        setMensagem({ texto, tipo: 'erro' });
         return;
       }
 
       alert('Senha alterada com sucesso!');
-      voltar(); // Volta para o login
-    } catch (error) {
-      setMensagem({ texto: 'Erro de conexão com o servidor.', tipo: 'erro' });
+      voltar();
+    } catch {
+      setMensagem({
+        texto: 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.',
+        tipo: 'erro'
+      });
     } finally {
       setCarregando(false);
     }
